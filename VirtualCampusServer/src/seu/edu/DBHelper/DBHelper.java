@@ -79,7 +79,7 @@ public final class DBHelper {
      * @param obj
      * @return int
      */
-    /*public static int executeNonQuery(String sql, Object... obj) {
+    public static int executeNonUpdate(String sql, Object... obj) {
        int result = 0;
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -97,7 +97,7 @@ public final class DBHelper {
             free(null, pstmt, conn);
         }
         return result;
-    }*/
+    }
     
     /**
      * @return ResultSet
@@ -121,7 +121,7 @@ public final class DBHelper {
     }
     
     
-   /* public static ResultSet executeQuery(String sql, Object... obj) {
+   public static ResultSet executeQuery(String sql, Object... obj) {
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -137,7 +137,7 @@ public final class DBHelper {
             free(rs, pstmt, conn);
         }
        return rs;
-    }*/
+    }
     
     /**
      *
