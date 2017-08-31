@@ -1,57 +1,70 @@
-package seu.edu.DBHelper;
+/**
+ * @author song
+ * @Time 8.31
+ */
 
-import java.sql.Connection;
+package seu.edu.dbHelper;
+
+import java.sql.*;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+
 public final class DBHelper {
-
-    // 此方法为获取数据库连接
-
+	public static void main(String[] args) {
+		String result="";
+		ResultSet rs = executeQuery("select * from Student");
+		try {
+			ResultSetMetaData resultSetMetaData = rs.getMetaData();
+			int iNumCols = resultSetMetaData.getColumnCount();
+			while (rs.next()) {
+				for(int i = 1; i <= 4; i++) {
+					result += resultSetMetaData.getColumnLabel(i)+ rs.getObject(i) + "  ";
+				}
+				result += "\n";
+			free(rs);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println(result);
+	}
+	private static String driver = "com.hxtt.sql.access.AccessDriver";  
+	private static String url = "jdbc:Access:///C:/Code/Java/Homework5/Student.accdb";
+	
+    // 获得与数据库的连接
     public static Connection getConnection() {
         Connection conn = null;
         try {
-
-            String driver = "com.mysql.jdbc.Driver"; // 数据库驱动
-            String url = "jdbc:MySQL://127.0.0.1:3306/school";// 数据库
-            String user = "root"; // 用户名
-            String password = "hadoop"; // 密码
-            Class.forName(driver); // 加载数据库驱动
-            if (null == conn) {
-                conn = DriverManager.getConnection(url, user, password);
-            }
-
-        } catch (ClassNotFoundException e) {
-            System.out.println("Sorry,can't find the Driver!");
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
+            Class.forName(driver).newInstance();
+            if (conn == null) {
+                conn = DriverManager.getConnection(url, "", "");
+            	}
         } catch (Exception e) {
             e.printStackTrace();
         }
         return conn;
-
     }
     
     /**
-     * 增删改【Add、Del、Update】
-     *
+     *判断是否更新数据成功
      * @param sql
      * @return int
      */
-    public static int executeNonQuery(String sql) {
+    public static int executeNonUpdate(String sql) {
         int result = 0;
         Connection conn = null;
         Statement stmt = null;
         try {
             conn = getConnection();
-            stmt = conn.createStatement();
+            stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             result = stmt.executeUpdate(sql);
-        } catch (SQLException err) {
-            err.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
             free(null, stmt, conn);
         } finally {
             free(null, stmt, conn);
@@ -60,13 +73,13 @@ public final class DBHelper {
     }
     
     /**
-     * 增删改【Add、Delete、Update】
+     * 判断多个数据是否更新成功
      *
      * @param sql
      * @param obj
      * @return int
      */
-    public static int executeNonQuery(String sql, Object... obj) {
+    /*public static int executeNonQuery(String sql, Object... obj) {
        int result = 0;
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -84,14 +97,12 @@ public final class DBHelper {
             free(null, pstmt, conn);
         }
         return result;
-    }
+    }*/
     
     /**
-     * 查【Query】
-     *
-     * @param sql
      * @return ResultSet
      */
+    // 进行数据库查询等操作
     public static ResultSet executeQuery(String sql) {
         Connection conn = null;
         Statement stmt = null;
@@ -100,6 +111,8 @@ public final class DBHelper {
             conn = getConnection();
             stmt = conn.createStatement();
             rs = stmt.executeQuery(sql);
+            free(conn);
+            free(stmt);
         } catch (SQLException err) {
             err.printStackTrace();
             free(rs, stmt, conn);
@@ -107,14 +120,8 @@ public final class DBHelper {
        return rs;
     }
     
-    /**
-     * 查【Query】
-     *
-     * @param sql
-     * @param obj
-     * @return ResultSet
-     */
-    public static ResultSet executeQuery(String sql, Object... obj) {
+    
+   /* public static ResultSet executeQuery(String sql, Object... obj) {
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -130,14 +137,15 @@ public final class DBHelper {
             free(rs, pstmt, conn);
         }
        return rs;
-    }
+    }*/
     
     /**
-     * 判断记录是否存在
      *
      * @param sql
      * @return Boolean
      */
+    
+    // 判断sql查询的数据是否存在
     public static Boolean isExist(String sql) {
         ResultSet rs = null;
         try {
@@ -159,7 +167,7 @@ public final class DBHelper {
     }
     
     /**
-     * 判断记录是否存在
+     * 判断sql需要查询的多个数据是否存在
      *
      * @param sql
      * @return Boolean
@@ -185,7 +193,7 @@ public final class DBHelper {
     }
     
     /**
-     * 获取查询记录的总行数
+     * 获得所查询数据的个数
      *
      * @param sql
      * @return int
@@ -207,7 +215,7 @@ public final class DBHelper {
     }
     
     /**
-     * 获取查询记录的总行数
+     *获得查询数据的个数
      *
      * @param sql
      * @param obj
@@ -229,8 +237,7 @@ public final class DBHelper {
     }
     
     /**
-     * 释放【ResultSet】资源
-     *
+     *释放Result
      * @param rs
      */
     public static void free(ResultSet rs) {
@@ -238,14 +245,13 @@ public final class DBHelper {
             if (rs != null) {
                 rs.close();
             }
-        } catch (SQLException err) {
+        } catch (Exception err) {
             err.printStackTrace();
         }
     }
     
     /**
-     * 释放【Statement】资源
-     *
+     *释放Statement
      * @param st
      */
     public static void free(Statement st) {
@@ -253,14 +259,13 @@ public final class DBHelper {
             if (st != null) {
                 st.close();
             }
-        } catch (SQLException err) {
+        } catch (Exception err) {
             err.printStackTrace();
         }
     }
     
     /**
-     * 释放【Connection】资源
-     *
+     * 释放Connnection
      * @param conn
      */
     public static void free(Connection conn) {
@@ -268,14 +273,13 @@ public final class DBHelper {
             if (conn != null) {
                 conn.close();
             }
-        } catch (SQLException err) {
+        } catch (Exception err) {
             err.printStackTrace();
         }
     }
     
     /**
-     * 释放所有数据资源
-     *
+     * 全部释放
      * @param rs
      * @param st
      * @param conn
