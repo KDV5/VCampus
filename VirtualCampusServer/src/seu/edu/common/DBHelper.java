@@ -1,9 +1,9 @@
+
 /**
- * @author song
+ * @author song/li
  * @Time 8.31
  */
-
-package seu.edu.DBHelper;
+package seu.edu.common;
 
 import java.sql.*;
 import java.sql.DriverManager;
@@ -12,37 +12,24 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-
-public final class DBHelper {
-	public static void main(String[] args) {
-		String result="";
-		ResultSet rs = executeQuery("select * from Student");
-		try {
-			ResultSetMetaData resultSetMetaData = rs.getMetaData();
-			int iNumCols = resultSetMetaData.getColumnCount();
-			while (rs.next()) {
-				for(int i = 1; i <= 4; i++) {
-					result += resultSetMetaData.getColumnLabel(i)+ rs.getObject(i) + "  ";
-				}
-				result += "\n";
-			free(rs);
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		System.out.println(result);
-	}
-	private static String driver = "com.hxtt.sql.access.AccessDriver";  
-	private static String url = "jdbc:Access:///C:/Code/Java/Homework5/Student.accdb";
+public final class DBHelper 
+{		
+	private DBHelper(){}		//私有构造函数
 	
     // 获得与数据库的连接
-    public static Connection getConnection() {
+    private static Connection getConnection() 
+    {
+    	String driver = "com.hxtt.sql.access.AccessDriver";  
+    	final String dbpath = "Database//vCampus.accdb";  //数据库相对路径
+    	String url = "jdbc:odbc:DRIVER={Microsoft Access Driver (*.mdb, *.accdb)};DBQ="+ dbpath;
+    	String userName = "";
+        String passWord = "";    	
+    	
         Connection conn = null;
         try {
             Class.forName(driver).newInstance();
             if (conn == null) {
-                conn = DriverManager.getConnection(url, "", "");
+                conn = DriverManager.getConnection(url, userName,passWord);
             	}
         } catch (Exception e) {
             e.printStackTrace();
@@ -111,8 +98,6 @@ public final class DBHelper {
             conn = getConnection();
             stmt = conn.createStatement();
             rs = stmt.executeQuery(sql);
-            free(conn);
-            free(stmt);
         } catch (SQLException err) {
             err.printStackTrace();
             free(rs, stmt, conn);
@@ -145,7 +130,7 @@ public final class DBHelper {
      * @return Boolean
      */
     
-    // 判断sql查询的数据是否存在
+    // 判断sql查询的数据是否存�?
     public static Boolean isExist(String sql) {
         ResultSet rs = null;
         try {
@@ -167,7 +152,7 @@ public final class DBHelper {
     }
     
     /**
-     * 判断sql需要查询的多个数据是否存在
+     * 判断sql�?��查询的多个数据是否存�?
      *
      * @param sql
      * @return Boolean
@@ -193,7 +178,7 @@ public final class DBHelper {
     }
     
     /**
-     * 获得所查询数据的个数
+     * 获得�?��询数据的个数
      *
      * @param sql
      * @return int
@@ -215,7 +200,7 @@ public final class DBHelper {
     }
     
     /**
-     *获得查询数据的个数
+     *获得查询数据的个�?
      *
      * @param sql
      * @param obj
