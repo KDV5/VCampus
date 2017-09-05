@@ -35,7 +35,7 @@ public final class DBHelper {
 		System.out.println(result);
 	}
 	private static String driver = "com.hxtt.sql.access.AccessDriver";  
-	private static String url = "jdbc:Access:///C:/workspace/VCampus/School.accdb";
+	private static String url = "jdbc:Access:///D:/VCampus/School.accdb";
 	
     // 获得与数据库的连接
     public static Connection getConnection() {

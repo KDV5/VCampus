@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 //书籍实体类
 /* 因英伦 9、1 */
-public class Book implements Serializable{
+public class BookBean implements Serializable{
 	
 		/**
 	 * 
@@ -20,7 +20,7 @@ public class Book implements Serializable{
 		String introduct=null;
 		String publisher=null;
 		
-		public Book(String ID,String name,String auther,String place,String introduct,
+		public BookBean(String ID,String name,String auther,String place,String introduct,
 				String publisher,int totalNumber,int storage){
 			
 			System.out.println("Book构造开始");
@@ -36,7 +36,7 @@ public class Book implements Serializable{
 			
 		}
 		
-		public Book() {
+		public BookBean() {
 			// TODO 自动生成的构造函数存根
 		}
 		
