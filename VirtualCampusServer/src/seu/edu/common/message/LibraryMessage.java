@@ -37,7 +37,7 @@ public class LibraryMessage extends BasicMessage{
 		this.setTotalNumber(totalNumber);
 	}
 	
-	public LibraryMessage(String )
+	//public LibraryMessage(String )
 	
 	public LibraryMessage(String rtype) {
 		super(mtype,rtype);			
