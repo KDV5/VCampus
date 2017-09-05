@@ -3,7 +3,7 @@ package seu.edu.common.message;
 import java.io.Serializable;
 
 /*
- * ÓÃÓÚÔÚ¿Í»§¶ËÓë·şÎñÆ÷Ö®Ç°´«µİµÄÇëÇóºÍĞÅÏ¢µÄ»ù´¡¸¸Àà
+ * ç”¨äºåœ¨å®¢æˆ·ç«¯ä¸æœåŠ¡å™¨ä¹‹å‰ä¼ é€’çš„è¯·æ±‚å’Œä¿¡æ¯çš„åŸºç¡€çˆ¶ç±»
  */
 
 public class BasicMessage implements Serializable {
@@ -12,9 +12,9 @@ public class BasicMessage implements Serializable {
 	 * 
 	 */	
 	private static final long serialVersionUID = 1L;
-	// ±íÊ¾ÇëÇóÓÉÄÄ¸öÄ£¿é·¢³ö
+	// è¡¨ç¤ºè¯·æ±‚ç”±å“ªä¸ªæ¨¡å—å‘å‡º
 	private String moduleType=null;
-	// ±íÊ¾ÇëÇóÀàĞÍ
+	// è¡¨ç¤ºè¯·æ±‚ç±»å‹
 	private String requestType =null;	
 	
 	BasicMessage(String mtype,String rtype){

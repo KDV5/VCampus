@@ -1,6 +1,5 @@
 package seu.edu.test;
 import seu.*;
-import seu.edu.server.srv.serverThreadDistributor;
 import seu.edu.server.view.ServerFrame;
 
 public class Test {

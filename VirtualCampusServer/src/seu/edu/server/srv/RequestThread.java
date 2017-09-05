@@ -5,7 +5,7 @@ import java.net.Socket;
 import seu.edu.*;
 import seu.edu.common.message.BasicMessage;
 import seu.edu.common.message.LibraryMessage;
-import seu.edu.thread.LibraryThread;
+import seu.edu.sever.srv.thread.LibraryThread;
 
 
 public class RequestThread extends Thread {
