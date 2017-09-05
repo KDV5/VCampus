@@ -18,6 +18,8 @@ public class LibraryMessage extends BasicMessage{
 	int storage=0;	// 当前余量
 	String introduct=null;
 	String publisher=null;
+	String searchKeyWordsType=null;
+	
 	
 	public LibraryMessage(String rtype,String name) {
 		super(mtype,rtype);	
@@ -34,6 +36,8 @@ public class LibraryMessage extends BasicMessage{
 		this.setStorage(storage);
 		this.setTotalNumber(totalNumber);
 	}
+	
+	//public LibraryMessage(String )
 	
 	public LibraryMessage(String rtype) {
 		super(mtype,rtype);			

@@ -4,6 +4,7 @@ import java.io.*;
 import java.net.Socket;
 import seu.edu.*;
 import seu.edu.common.message.BasicMessage;
+import seu.edu.common.message.LibraryMessage;
 import seu.edu.thread.LibraryThread;
 
 
@@ -26,8 +27,8 @@ public class RequestThread extends Thread {
 			BasicMessage content =null;
 			content =  (BasicMessage) ois.readObject();
 			if("Library".equals(content.getModuleType())){
-				System.out.println("检测到图书馆模块请求");
-				new LibraryThread(socket,content).start();
+				
+				new LibraryThread(socket,(LibraryMessage) content).start();
 			}
 			else{}
 			
