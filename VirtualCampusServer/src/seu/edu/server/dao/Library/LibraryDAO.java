@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import seu.edu.common.message.BasicMessage;
 import seu.edu.common.message.LibraryMessage;
 import seu.edu.common.message.ListMessage;
-import seu.edu.server.dbHelper.*;
+import seu.edu.common.DBHelper;
 import seu.edu.server.vo.*;
 /*
  * 图书馆表增删查改

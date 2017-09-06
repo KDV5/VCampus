@@ -15,7 +15,7 @@ public class RequestThread extends Thread {
 	public RequestThread(Socket s){
 		this.socket=s;		
 		try {
-			ois= new ObjectInputStream(s.getInputStream());
+			ois= new ObjectInputStream(socket.getInputStream());
 		} catch (IOException e) {
 			// TODO 自动生成的 catch 块
 			//e.printStackTrace();

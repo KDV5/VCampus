@@ -1,10 +1,10 @@
-
 /**
- * @author song/li
+ * @author song
  * @Time 8.31
  */
-package seu.edu.common;
 
+package seu.edu.common;
+import seu.edu.common.*;
 import java.sql.*;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -12,24 +12,38 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public final class DBHelper 
-{		
-	private DBHelper(){}		//私有构造函数
+
+public final class DBHelper {
+	public static void main(String[] args) {
+		String result="";
+		ResultSet rs = executeQuery("select * from Student");
+		try {
+			ResultSetMetaData resultSetMetaData = rs.getMetaData();
+			int iNumCols = resultSetMetaData.getColumnCount();
+			while (rs.next()) {
+				for(int i = 1; i <= 4; i++) {
+					result += resultSetMetaData.getColumnLabel(i)+ rs.getObject(i) + "  ";
+				}
+				result += "\n";
+			
+			}
+			free(rs);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println(result);
+	}
+	private static String driver = "com.hxtt.sql.access.AccessDriver";  
+	private static String url = "jdbc:Access:///C:/workspace/VCampus/School.accdb";
 	
     // 获得与数据库的连接
-    private static Connection getConnection() 
-    {
-    	String driver = "com.hxtt.sql.access.AccessDriver";  
-    	final String dbpath = "Database//vCampus.accdb";  //数据库相对路径
-    	String url = "jdbc:odbc:DRIVER={Microsoft Access Driver (*.mdb, *.accdb)};DBQ="+ dbpath;
-    	String userName = "";
-        String passWord = "";    	
-    	
+    public static Connection getConnection() {
         Connection conn = null;
         try {
             Class.forName(driver).newInstance();
             if (conn == null) {
-                conn = DriverManager.getConnection(url, userName,passWord);
+                conn = DriverManager.getConnection(url, "", "");
             	}
         } catch (Exception e) {
             e.printStackTrace();
@@ -42,15 +56,19 @@ public final class DBHelper
      * @param sql
      * @return int
      */
-    public static int executeNonUpdate(String sql) {
-        int result = 0;
+    public static boolean executeUpdate(String sql) {
+        boolean result = true;
+        int temp;
         Connection conn = null;
         Statement stmt = null;
         try {
             conn = getConnection();
             stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            result = stmt.executeUpdate(sql);
+            temp = stmt.executeUpdate(sql);
+            if(temp==0)
+            	result =false;
         } catch (Exception e) {
+        	result=false;
             e.printStackTrace();
             free(null, stmt, conn);
         } finally {
@@ -66,8 +84,9 @@ public final class DBHelper
      * @param obj
      * @return int
      */
-    public static int executeNonUpdate(String sql, Object... obj) {
-       int result = 0;
+    public static boolean executeUpdate(String sql, Object... obj) {
+    	boolean result = true;
+    	int temp;
         Connection conn = null;
         PreparedStatement pstmt = null;
         try {
@@ -76,8 +95,11 @@ public final class DBHelper
             for (int i = 0; i < obj.length; i++) {
                 pstmt.setObject(i + 1, obj[i]);
             }
-            result = pstmt.executeUpdate();
+            temp = pstmt.executeUpdate();
+            if(temp==0)
+            	result =false;
         } catch (SQLException err) {
+        	result =false;
            err.printStackTrace();
             free(null, pstmt, conn);
         } finally {
@@ -98,6 +120,7 @@ public final class DBHelper
             conn = getConnection();
             stmt = conn.createStatement();
             rs = stmt.executeQuery(sql);
+
         } catch (SQLException err) {
             err.printStackTrace();
             free(rs, stmt, conn);
@@ -107,7 +130,7 @@ public final class DBHelper
     
     
    public static ResultSet executeQuery(String sql, Object... obj) {
-        Connection conn = null;
+        Connection conn = null; 
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         try {

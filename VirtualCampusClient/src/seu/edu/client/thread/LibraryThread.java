@@ -27,7 +27,7 @@ public class LibraryThread extends Thread {
 			ListMessage dataList=(ListMessage) ois.readObject();
 			int i=0;
 			for(;i<dataList.getDataList().size();i++){
-				System.out.println(dataList.getDataList().get(i).getModuleType());
+				System.out.println(((LibraryMessage)(dataList.getDataList().get(i))).getBookName());
 			}
 			
 		} catch (Exception e) {
