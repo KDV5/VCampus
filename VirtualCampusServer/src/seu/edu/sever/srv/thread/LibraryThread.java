@@ -22,7 +22,7 @@ public class LibraryThread extends Thread{
 	private LibraryDAO ld=new LibraryDAO();
 	private SearchBook sb=new SearchBook();
 	private RequestThread requestThread=null;
-	private BasicMessage lm=null;
+	private LibraryMessage lm=null;
 	public LibraryThread(RequestThread rt ,LibraryMessage content){
 		requestThread=rt;
 		lm=content;
