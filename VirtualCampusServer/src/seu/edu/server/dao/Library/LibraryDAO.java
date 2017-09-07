@@ -19,16 +19,8 @@ public class LibraryDAO {
 	/*
 	 *
 	 */
-	boolean addBook(BookBean book){
-		
-		String sql="insert into tblBooks (BookID,BookNmae,Auther,Place,	TotalNumber,Storage,Introduction) "
-				+ "values (" + book.getBookID() + book.getBookName() +book.getAuther() + book.getPlace() + book.getTotalNumber()
-				+ book.getStorage() + book.getIntroduct() + ")";
-		
-		boolean re=dbh.executeUpdate(sql);
-		return re;
-		
-	}
+	
+
 	
 	boolean deleteBook(BookBean book){
 		String sql = "delete from tblBooks where BookID = '"+book.getBookID()+"'";
@@ -51,28 +43,7 @@ public class LibraryDAO {
 		return re;
 	}
 	
-	//列出所有书籍
-	public ListMessage ListAllBooks(){
-		System.out.println("进入ListAllBooks函数");
-		ResultSet re=searchBook();
-		try{
-			System.out.println("请求内容 ：列出全部图书");			
-			ArrayList<BasicMessage> bookList =new ArrayList<BasicMessage>();
-			System.out.println("进入while循环");
-			while(re.next()){				
 
-				LibraryMessage b1=new LibraryMessage("ListAllBooks",re.getString("BookID"),re.getString("BookName"),re.getString("Author"),
-						re.getString("Place"),re.getInt("TotalNumber"),re.getInt("Storage"),re.getString("Introduction"),re.getString("Publisher"));
-				
-				bookList.add(b1);				
-			}
-			
-			return new ListMessage("Library","ListAllBooks",bookList);
-			
-		}catch(Exception e){
-			return null;
-		}			
-	}
 	
 	//
 	

@@ -12,30 +12,20 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-
+/*
+ * @auther Xiaowei Song
+ * 
+ */
 public final class DBHelper {
-	public static void main(String[] args) {
-		String result="";
-		ResultSet rs = executeQuery("select * from Student");
-		try {
-			ResultSetMetaData resultSetMetaData = rs.getMetaData();
-			int iNumCols = resultSetMetaData.getColumnCount();
-			while (rs.next()) {
-				for(int i = 1; i <= 4; i++) {
-					result += resultSetMetaData.getColumnLabel(i)+ rs.getObject(i) + "  ";
-				}
-				result += "\n";
-			
-			}
-			free(rs);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		System.out.println(result);
-	}
+
 	private static String driver = "com.hxtt.sql.access.AccessDriver";  
-	private static String url = "jdbc:Access:///C:/workspace/VCampus/School.accdb";
+//	private static String url = "jdbc:Access:///C:/workspace/VCampus/School.accdb";
+	
+	static String dbpath = "///./Database/vCampus.accdb";  //数据库相对路径
+	static String url="jdbc:Access:"+ dbpath;
+	
+    public Connection conn = null;
+    public PreparedStatement stmt = null;
 	
     // 获得与数据库的连接
     public static Connection getConnection() {

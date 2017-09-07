@@ -19,11 +19,14 @@ public class BookBean implements Serializable{
 		int storage=0;	// 当前余量
 		String introduct=null;
 		String publisher=null;
+		String Type=null;
 		
+
+
 		public BookBean(String ID,String name,String auther,String place,String introduct,
-				String publisher,int totalNumber,int storage){
+				String publisher,String Type,int totalNumber,int storage){
 			
-			System.out.println("Book构造开始");
+			//System.out.println("Book构造开始");
 			setBookID(ID);
 			setBookName(name);
 			setIntroduct(introduct);
@@ -32,7 +35,8 @@ public class BookBean implements Serializable{
 			setPublisher(publisher);
 			setStorage(storage);
 			setTotalNumber(totalNumber);
-			System.out.println("Book构造结束");
+			setType(Type);
+			//System.out.println("Book构造结束");
 			
 		}
 		
@@ -95,6 +99,14 @@ public class BookBean implements Serializable{
 		}
 		public void setPublisher(String publisher) {
 			this.publisher = publisher;
+		}
+		
+		public String getType() {
+			return Type;
+		}
+
+		public void setType(String type) {
+			Type = type;
 		}
 			
 		

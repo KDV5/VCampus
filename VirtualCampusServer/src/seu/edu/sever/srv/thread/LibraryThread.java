@@ -1,6 +1,7 @@
 package seu.edu.sever.srv.thread;
 
 import java.io.IOException;
+
 import seu.edu.server.dao.Library.*;
 import java.io.ObjectOutput;
 
@@ -12,29 +13,25 @@ import java.util.ArrayList;
 import seu.edu.common.message.BasicMessage;
 import seu.edu.common.message.LibraryMessage;
 import seu.edu.common.message.ListMessage;
-import seu.edu.server.dao.Library.LibraryDAO;
 import seu.edu.server.vo.BookBean;
+import seu.edu.server.dao.Library.SearchBook;
+import seu.edu.server.srv.RequestThread;
+
 
 public class LibraryThread extends Thread{
 	private LibraryDAO ld=new LibraryDAO();
-	private Socket socket=null;
+	private SearchBook sb=new SearchBook();
+	private RequestThread requestThread=null;
 	private BasicMessage lm=null;
-	public LibraryThread(Socket s,LibraryMessage content){
-		socket=s;
+	public LibraryThread(RequestThread rt ,LibraryMessage content){
+		requestThread=rt;
 		lm=content;
 	}
 
 	public void run(){
-		ObjectOutputStream oos;
-		try {
-			oos = new ObjectOutputStream(socket.getOutputStream());
-			if("ListAllBooks".equals(lm.getRequestType())){
-				oos.writeObject(ld.ListAllBooks());
-			}
-				
-		} catch (IOException e) {
-			// TODO 自动生成的 catch 块
-			e.printStackTrace();
+		//oos = new ObjectOutputStream(socket.getOutputStream());
+		if("ListAllBooks".equals(lm.getRequestType())){
+			requestThread.SendToClient(sb.ListAllBooks());
 		}
 		
 	}

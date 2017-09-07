@@ -18,7 +18,13 @@ public class LibraryMessage extends BasicMessage{
 	int storage=0;	// 当前余量
 	String introduct=null;
 	String publisher=null;
+	String type=null;
+	String keyWords=null;
+	int LendTimes=0;
+	
 	String searchKeyWordsType=null;
+	String operResult; // 表示操作成功或失败
+	
 	
 	
 	public LibraryMessage(String rtype,String name) {
@@ -26,7 +32,7 @@ public class LibraryMessage extends BasicMessage{
 		this.setBookName(name);
 	}
 	
-	public LibraryMessage(String rtype,String bookID,String bookName,String auther,String place,int totalNumber,int storage,String introduct,String publisher ){
+	public LibraryMessage(String rtype,String bookID,String bookName,String auther,String place,int totalNumber,int storage,String introduct,String publisher,String type, int lendTimes ){
 		super(mtype,rtype);
 		this.setBookID(bookID);
 		this.setBookName(bookName);
@@ -35,13 +41,15 @@ public class LibraryMessage extends BasicMessage{
 		this.setPublisher(publisher);
 		this.setStorage(storage);
 		this.setTotalNumber(totalNumber);
+		this.setType(type);
+		this.setLendTimes(lendTimes);
 	}
 	
-	//public LibraryMessage(String )
-	
-	public LibraryMessage(String rtype) {
-		super(mtype,rtype);			
+	public LibraryMessage(String result){
+		super(mtype,"");
+		this.setOperResult(result);
 	}
+	
 
 	public String getBookID() {
 		return bookID;
@@ -105,6 +113,46 @@ public class LibraryMessage extends BasicMessage{
 
 	public void setPublisher(String publisher) {
 		this.publisher = publisher;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getSearchKeyWordsType() {
+		return searchKeyWordsType;
+	}
+
+	public void setSearchKeyWordsType(String searchKeyWordsType) {
+		this.searchKeyWordsType = searchKeyWordsType;
+	}
+
+	public String getOperResult() {
+		return operResult;
+	}
+
+	public void setOperResult(String operResult) {
+		this.operResult = operResult;
+	}
+
+	public String getKeyWords() {
+		return keyWords;
+	}
+
+	public void setKeyWords(String keyWords) {
+		this.keyWords = keyWords;
+	}
+
+	public int getLendTimes() {
+		return LendTimes;
+	}
+
+	public void setLendTimes(int lendTimes) {
+		LendTimes = lendTimes;
 	}
 	
 }
