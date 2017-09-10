@@ -4,7 +4,8 @@ public class LibraryMessage extends BasicMessage{
 	
 	
 	/**
-	 * 
+	 * @author yyl
+	 * 用来在客户端与服务器端交换信息
 	 */
 	private static final long serialVersionUID = 1L;
 	
@@ -18,13 +19,29 @@ public class LibraryMessage extends BasicMessage{
 	int storage=0;	// 当前余量
 	String introduct=null;
 	String publisher=null;
+	String type=null;
+	int LendTimes=0;
 	
-	public LibraryMessage(String rtype,String name) {
+	String keyWordsType=null;
+	String operResult; // 表示操作成功或失败
+	
+	
+	
+	/*
+	 * @data 9.10
+	 * 向服务器传递搜索信息及关键字 
+	 */
+	public LibraryMessage(String rtype,String keyWordsType,String keyWord) {
 		super(mtype,rtype);	
-		this.setBookName(name);
+		this.setKeyWordsType(keyWordsType);
+		switch(this.getKeyWordsType()){
+		case "BOOK_NAME" : this.setBookName(keyWord);break;
+		case "AUTHOR" : this.setAuther(keyWord);
+		case "BOOK_ID" : this.setBookID(keyWord);
+		}
 	}
 	
-	public LibraryMessage(String rtype,String bookID,String bookName,String auther,String place,int totalNumber,int storage,String introduct,String publisher ){
+	public LibraryMessage(String rtype,String bookID,String bookName,String auther,String place,int totalNumber,int storage,String introduct,String publisher,String type, int lendTimes ){
 		super(mtype,rtype);
 		this.setBookID(bookID);
 		this.setBookName(bookName);
@@ -33,11 +50,15 @@ public class LibraryMessage extends BasicMessage{
 		this.setPublisher(publisher);
 		this.setStorage(storage);
 		this.setTotalNumber(totalNumber);
+		this.setType(type);
+		this.setLendTimes(lendTimes);
 	}
 	
-	public LibraryMessage(String rtype) {
-		super(mtype,rtype);			
+	public LibraryMessage(String result){
+		super(mtype,"");
+		this.setOperResult(result);
 	}
+	
 
 	public String getBookID() {
 		return bookID;
@@ -101,6 +122,39 @@ public class LibraryMessage extends BasicMessage{
 
 	public void setPublisher(String publisher) {
 		this.publisher = publisher;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getKeyWordsType() {
+		return keyWordsType;
+	}
+
+	public void setKeyWordsType(String keyWordsType) {
+		this.keyWordsType = keyWordsType;
+	}
+
+	public String getOperResult() {
+		return operResult;
+	}
+
+	public void setOperResult(String operResult) {
+		this.operResult = operResult;
+	}
+
+
+	public int getLendTimes() {
+		return LendTimes;
+	}
+
+	public void setLendTimes(int lendTimes) {
+		LendTimes = lendTimes;
 	}
 	
 }

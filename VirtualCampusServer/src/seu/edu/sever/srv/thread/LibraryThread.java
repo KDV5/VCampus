@@ -30,8 +30,16 @@ public class LibraryThread extends Thread{
 
 	public void run(){
 		//oos = new ObjectOutputStream(socket.getOutputStream());
-		if("ListAllBooks".equals(lm.getRequestType())){
-			requestThread.SendToClient(sb.ListAllBooks());
+		while(true){
+			
+			if("LIST_ALL_BOOKS".equals(lm.getRequestType())){
+				requestThread.SendToClient(sb.ListAllBooks());
+			}
+			else{
+				if("SEARCH_BY_KEYWORDS".equals(lm.getRequestType())){
+					requestThread.SendToClient(sb.SearchByKeyWords(lm));
+				}
+			}
 		}
 		
 	}

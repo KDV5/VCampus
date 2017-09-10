@@ -14,7 +14,7 @@ import seu.edu.common.message.ListMessage;
  * @date 9.6
  */
 public class SearchBook {
-	DBHelper db;
+	DBHelper db=new DBHelper();
 	LibraryDAO ld=new LibraryDAO();
 	PreparedStatement pst;
 	String sql;
@@ -42,24 +42,29 @@ public class SearchBook {
 		}			
 	}
 	
-	public ListMessage SearchByKeyWords(String keyWords,LibraryMessage lbm){
-		db.getConnection();
+	public ListMessage SearchByKeyWords(LibraryMessage lbm){
+		//Connection conn=getConnection();
 		try{
-			switch(lbm.getSearchKeyWordsType()){
-				case "BookID":{
-					sql="SELECT * FROM `people` WHERE namess LIKE  ?  ORDER BY REPLACE(namess,'"+lbm.getKeyWords()+"','')";
+			switch(lbm.getKeyWordsType()){
+				case "BOOK_ID":{
+					sql="SELECT * FROM tblBooks WHERE BookID LIKE  ?  ORDER BY REPLACE(BookID,'"+lbm.getBookID()+"','')";
 					pst = db.conn.prepareStatement(sql);
-					pst.setString(1,"%"+lbm.getKeyWords()+"%");				
+					pst.setString(1,"%"+lbm.getBookID()+"%");	
+					break;
 					}
-				case "BookName":{
-					sql="SELECT * FROM `people` WHERE namess LIKE  ?  ORDER BY REPLACE(namess,'"+lbm.getKeyWords()+"','')";
+				case "BOOK_NAME":{
+					//sql="SELECT * FROM tblBooks WHERE namess LIKE  ?  ORDER BY REPLACE(namess,'"+lbm.getBookName()+"','')";
+					sql="SELECT * FROM tblBooks WHERE BookName LIKE  ?  ORDER BY REPLACE(BookName,?,'')";
 					pst = db.conn.prepareStatement(sql);
-					pst.setString(1,"%"+lbm.getKeyWords()+"%");				
+					pst.setString(1,"%"+lbm.getBookName()+"%");		
+					pst.setString(2,lbm.getBookName());		
+					break;
 					}
-				case "Author":{
-					sql="SELECT * FROM `people` WHERE namess LIKE  ?  ORDER BY REPLACE(namess,'"+lbm.getKeyWords()+"','')";
+				case "AUTHOR":{
+					sql="SELECT * FROM tblBooks WHERE Author LIKE  ?  ORDER BY REPLACE(Author,'"+lbm.getAuther()+"','')";
 					pst = db.conn.prepareStatement(sql);
-					pst.setString(1,"%"+lbm.getKeyWords()+"%");				
+					pst.setString(1,"%"+lbm.getBookName()+"%");		
+					break;
 					}	
 				}
 			ResultSet re =pst.executeQuery();

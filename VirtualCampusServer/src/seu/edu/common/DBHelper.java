@@ -26,6 +26,15 @@ public final class DBHelper {
 	
     public Connection conn = null;
     public PreparedStatement stmt = null;
+    
+    /*
+     * @author yyl
+     * 9.10
+     * 增加构造函数初始化conn
+     */
+    public DBHelper(){
+    	this.conn=getConnection();
+    }
 	
     // 获得与数据库的连接
     public static Connection getConnection() {

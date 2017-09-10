@@ -4,7 +4,8 @@ public class LibraryMessage extends BasicMessage{
 	
 	
 	/**
-	 * 
+	 * @author yyl
+	 * 用来在客户端与服务器端交换信息
 	 */
 	private static final long serialVersionUID = 1L;
 	
@@ -19,17 +20,25 @@ public class LibraryMessage extends BasicMessage{
 	String introduct=null;
 	String publisher=null;
 	String type=null;
-	String keyWords=null;
 	int LendTimes=0;
 	
-	String searchKeyWordsType=null;
+	String keyWordsType=null;
 	String operResult; // 表示操作成功或失败
 	
 	
 	
-	public LibraryMessage(String rtype,String name) {
+	/*
+	 * @data 9.10
+	 * 向服务器传递搜索信息及关键字 
+	 */
+	public LibraryMessage(String rtype,String keyWordsType,String keyWord) {
 		super(mtype,rtype);	
-		this.setBookName(name);
+		this.setKeyWordsType(keyWordsType);
+		switch(this.getKeyWordsType()){
+		case "BOOK_NAME" : this.setBookName(keyWord);break;
+		case "AUTHOR" : this.setAuther(keyWord);
+		case "BOOK_ID" : this.setBookID(keyWord);
+		}
 	}
 	
 	public LibraryMessage(String rtype,String bookID,String bookName,String auther,String place,int totalNumber,int storage,String introduct,String publisher,String type, int lendTimes ){
@@ -123,12 +132,12 @@ public class LibraryMessage extends BasicMessage{
 		this.type = type;
 	}
 
-	public String getSearchKeyWordsType() {
-		return searchKeyWordsType;
+	public String getKeyWordsType() {
+		return keyWordsType;
 	}
 
-	public void setSearchKeyWordsType(String searchKeyWordsType) {
-		this.searchKeyWordsType = searchKeyWordsType;
+	public void setKeyWordsType(String keyWordsType) {
+		this.keyWordsType = keyWordsType;
 	}
 
 	public String getOperResult() {
@@ -139,13 +148,6 @@ public class LibraryMessage extends BasicMessage{
 		this.operResult = operResult;
 	}
 
-	public String getKeyWords() {
-		return keyWords;
-	}
-
-	public void setKeyWords(String keyWords) {
-		this.keyWords = keyWords;
-	}
 
 	public int getLendTimes() {
 		return LendTimes;
