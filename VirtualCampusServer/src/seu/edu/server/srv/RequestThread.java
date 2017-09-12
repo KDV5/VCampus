@@ -26,13 +26,14 @@ public class RequestThread extends Thread {
 	}
 	public void run(){
 		try{
-			BasicMessage content =null;
-			content =  (BasicMessage) ois.readObject();
-			if("Library".equals(content.getModuleType())){				
-				new LibraryThread(this,(LibraryMessage) content).start();
-			}
-			else{}
-			
+			while(true){
+				BasicMessage content =null;
+				content =  (BasicMessage) ois.readObject();
+				if("Library".equals(content.getModuleType())){				
+					new LibraryThread(this,(LibraryMessage) content).start();
+				}
+				else{}
+			}			
 			
 		}catch(Exception e){
 			e.printStackTrace();

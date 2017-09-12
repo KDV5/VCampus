@@ -22,6 +22,10 @@ public class LibraryMessage extends BasicMessage{
 	String type=null;
 	int LendTimes=0;
 	
+	String stuNumber=null;
+	String stuName=null;
+	String lendDate=null;
+	
 	String keyWordsType=null;
 	String operResult; // 表示操作成功或失败
 	
@@ -41,17 +45,42 @@ public class LibraryMessage extends BasicMessage{
 		}
 	}
 	
-	public LibraryMessage(String rtype,String bookID,String bookName,String auther,String place,int totalNumber,int storage,String introduct,String publisher,String type, int lendTimes ){
+	/*
+	 * 添加图书信息
+	 */
+	public LibraryMessage(String rtype,String bookID,String bookName,String auther,String place,int totalNumber,int storage,String introduction,String publisher,String type){
 		super(mtype,rtype);
 		this.setBookID(bookID);
 		this.setBookName(bookName);
 		this.setAuther(auther);
-		this.setIntroduct(introduct);
+		this.setPlace(place);
+		this.setIntroduct(introduction);
 		this.setPublisher(publisher);
 		this.setStorage(storage);
 		this.setTotalNumber(totalNumber);
 		this.setType(type);
-		this.setLendTimes(lendTimes);
+		this.setLendTimes(0);
+	}
+	
+	/*
+	 * 删除图书信息
+	 */
+	public LibraryMessage(String rtype,String BookID){
+		super(mtype,rtype);
+		this.setBookID(BookID);
+	}
+	
+	/*
+	 * 借书信息
+	 */
+	public LibraryMessage(String rtype,String BookName,String BookID,int Storage,String stuNumber,String stuName,String LendDate){
+		super(mtype,rtype);
+		this.setBookName(BookName);
+		this.setBookID(BookID);
+		this.setStuName(stuName);
+		this.setStuNumber(stuNumber);
+		this.setLendDate(LendDate);
+		this.setStorage(Storage);
 	}
 	
 	public LibraryMessage(String result){
@@ -155,6 +184,30 @@ public class LibraryMessage extends BasicMessage{
 
 	public void setLendTimes(int lendTimes) {
 		LendTimes = lendTimes;
+	}
+
+	public String getStuNumber() {
+		return stuNumber;
+	}
+
+	public void setStuNumber(String stuNumber) {
+		this.stuNumber = stuNumber;
+	}
+
+	public String getStuName() {
+		return stuName;
+	}
+
+	public void setStuName(String stuName) {
+		this.stuName = stuName;
+	}
+
+	public String getLendDate() {
+		return lendDate;
+	}
+
+	public void setLendDate(String lendDate) {
+		this.lendDate = lendDate;
 	}
 	
 }

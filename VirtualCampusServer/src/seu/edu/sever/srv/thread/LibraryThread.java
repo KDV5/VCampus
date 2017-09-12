@@ -21,6 +21,9 @@ import seu.edu.server.srv.RequestThread;
 public class LibraryThread extends Thread{
 	private LibraryDAO ld=new LibraryDAO();
 	private SearchBook sb=new SearchBook();
+	private DeleteBook db=new DeleteBook();
+	private EditBook eb=new EditBook();
+	private AddBook ab=new AddBook();
 	private RequestThread requestThread=null;
 	private LibraryMessage lm=null;
 	public LibraryThread(RequestThread rt ,LibraryMessage content){
@@ -30,17 +33,21 @@ public class LibraryThread extends Thread{
 
 	public void run(){
 		//oos = new ObjectOutputStream(socket.getOutputStream());
-		while(true){
+	//	while(true){
 			
-			if("LIST_ALL_BOOKS".equals(lm.getRequestType())){
-				requestThread.SendToClient(sb.ListAllBooks());
-			}
-			else{
-				if("SEARCH_BY_KEYWORDS".equals(lm.getRequestType())){
+			if("SEARCH_BY_KEYWORDS".equals(lm.getRequestType())){
 					requestThread.SendToClient(sb.SearchByKeyWords(lm));
 				}
+			else if("ADD_BOOK".equals(lm.getRequestType())){
+					requestThread.SendToClient(ab.addBook(lm));
 			}
-		}
+			else if("DELETE_BOOK".equals(lm.getRequestType())){
+				requestThread.SendToClient(db.deleteBook(lm));
+			}
+			else if("EDIT_BOOK".equals(lm.getRequestType())){
+				requestThread.SendToClient(eb.editBook(lm));	
+			}
+	//	}
 		
 	}
 	

@@ -87,7 +87,7 @@ public class SearchBookPanel extends JPanel {
 		panel.add(hotWord);	
 
 		
-		final JScrollPane scrollPane = new JScrollPane();
+		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(35, 127, 747, 482);
 		panel.add(scrollPane);
 		
@@ -96,9 +96,27 @@ public class SearchBookPanel extends JPanel {
 			headName.add(tableHead[i]);		
 		}    
 	    final DefaultTableModel resultTableModel=new DefaultTableModel(data, headName);
-	    resultTable = new JTable(resultTableModel);	
-		resultTable.setEnabled(false);
+	    resultTable = new JTable(resultTableModel){
+	    	public boolean isCellEditable(int row,int col){
+	    		return false;
+	    	}
+	    };	
+		//resultTable.setEnabled(false);
 		resultTable.setBounds(35, 127, 747, 482);
+
+		//为表格添加点击相应
+		resultTable.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				//若鼠标点击的行不为空
+				int t= resultTable.getSelectedRow();
+				if(resultTable.getValueAt(resultTable.getSelectedRow(), 0)!=null){
+					int row=resultTable.getSelectedRow();
+					JOptionPane.showMessageDialog(null,resultTable.getValueAt(row, 1));
+				}
+			}
+		});
+
 		scrollPane.setViewportView(resultTable);
 		
 	
@@ -111,8 +129,7 @@ public class SearchBookPanel extends JPanel {
 		searchButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {				
 				ListMessage lm=searchByBookName(keyWordField.getText());
-				data = setTableData(lm);
-				resultTableModel.fireTableDataChanged();	
+				setTableData(lm,resultTableModel);				
 				resultTable.validate();
 			}
 		});		
@@ -128,8 +145,14 @@ public class SearchBookPanel extends JPanel {
 	}
 	
 	//设置表格内容
-	private Vector setTableData(ListMessage rs){		
-		Vector data =new Vector();
+	private void setTableData(ListMessage rs,DefaultTableModel dtm){		
+		//Vector data =new Vector();
+		//循环表格删除行
+		int t=dtm.getRowCount();
+		for(int i=0;i<t;i++){
+			dtm.removeRow(i);
+		}
+		//dtm.fireTableRowsDeleted(0, dtm.getRowCount());
 		Vector row;
 		int i=0;
 			for(;i<rs.getDataList().size();i++){
@@ -139,24 +162,11 @@ public class SearchBookPanel extends JPanel {
 				row.add(((LibraryMessage)(rs.getDataList().get(i))).getPublisher());
 				row.add(((LibraryMessage)(rs.getDataList().get(i))).getTotalNumber());
 				row.add(((LibraryMessage)(rs.getDataList().get(i))).getStorage());
-				data.add(row);				
+				//data.add(row);		
+				dtm.addRow(row);
 			}
-			
-		return data;
-//		final JTable table=new JTable();
-//		table.setModel(model);
-//		table.setEnabled(false);
-//		table.addMouseListener(new MouseAdapter() {
-//			@Override
-//			public void mouseClicked(MouseEvent arg0) {
-//				//若鼠标点击的行不为空
-//				if(table.getValueAt(table.getSelectedRow(), 0)!=null){
-//					int row=resultTable.getSelectedRow();
-//					JOptionPane.showMessageDialog(null,resultTable.getValueAt(row, 1));
-//				}
-//			}
-//		});
-//		return table;
+
+
 	}
 }
 

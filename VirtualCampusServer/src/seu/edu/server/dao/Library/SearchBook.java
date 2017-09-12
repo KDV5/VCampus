@@ -20,7 +20,7 @@ public class SearchBook {
 	String sql;
 	
 	//列出所有书籍
-	public ListMessage ListAllBooks(){
+/*	public ListMessage ListAllBooks(){
 		//System.out.println("进入ListAllBooks函数");
 		ResultSet re=ld.searchBook();
 		try{
@@ -41,6 +41,7 @@ public class SearchBook {
 			return null;
 		}			
 	}
+	*/
 	
 	public ListMessage SearchByKeyWords(LibraryMessage lbm){
 		//Connection conn=getConnection();
@@ -71,8 +72,8 @@ public class SearchBook {
 			ArrayList<BasicMessage> bookList =new ArrayList<BasicMessage>();
 			while(re.next()){				
 
-				LibraryMessage b1=new LibraryMessage("ListAllBooks",re.getString("BookID"),re.getString("BookName"),re.getString("Author"),
-						re.getString("Place"),re.getInt("TotalNumber"),re.getInt("Storage"),re.getString("Introduction"),re.getString("Publisher"),re.getString("Type"),re.getInt("LendTimes"));
+				LibraryMessage b1=new LibraryMessage("SERACH_BY_KEYWORDS",re.getString("BookID"),re.getString("BookName"),re.getString("Author"),
+						re.getString("Place"),re.getInt("TotalNumber"),re.getInt("Storage"),re.getString("Introduction"),re.getString("Publisher"),re.getString("Type"));
 				
 				bookList.add(b1);				
 			}
