@@ -1,9 +1,12 @@
 package seu.edu.server.dao.Library;
 
+import java.io.File;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
+import javax.swing.ImageIcon;
 
 import seu.edu.common.DBHelper;
 import seu.edu.common.message.BasicMessage;
@@ -81,6 +84,13 @@ public class SearchBook {
 				LibraryMessage b1=new LibraryMessage("SERACH_BY_KEYWORDS",re.getString("BookID"),re.getString("BookName"),re.getString("Author"),
 						re.getString("Place"),re.getInt("TotalNumber"),re.getInt("Storage"),re.getString("Introduction"),re.getString("Publisher"),re.getString("Type"));
 				
+				//获取数据库中的图片信息
+				File file = new File("BooksImage\\"+re.getString("BookID")+".jpg");
+				if(file.exists()){// 若该ID对应图片存在
+					b1.setIcon(new ImageIcon("BooksImage\\"+re.getString("BookID")+".jpg"));
+				}else{// 若图片不存在
+					b1.setIcon(null);
+				}
 				bookList.add(b1);				
 			}
 			return new ListMessage("Library","ListAllBooks",bookList);
