@@ -2,11 +2,18 @@ package seu.edu.server.dao.Library;
 
 import seu.edu.common.message.LibraryMessage;
 
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.imageio.ImageIO;
+
 import seu.edu.common.DBHelper;
+import seu.edu.common.ImageToBufferImage;
 
 public class AddBook {
 	
@@ -50,10 +57,13 @@ public class AddBook {
 			     pst.setString(7,libMessage.getIntroduct());
 			     pst.setString(8,libMessage.getType());
 			     pst.setInt(9,libMessage.getLendTimes());
-			     pst.executeUpdate();
+			     pst.executeUpdate();			     
+			     Image image = libMessage.getIcon().getImage();	// 获取message中的图片			    
+			     BufferedImage image1 = ImageToBufferImage.toBufferedImage(image); // 
+			     ImageIO.write(image1, "jpg", new File("GoodsImage\\"+libMessage.getBookID()+".jpg"));
 			     return new LibraryMessage("ADD_NEW_BOOK_SUCCEED");
 			     }	  
-		}catch(SQLException e){
+		}catch(Exception e){
 			e.printStackTrace();			
 			return new LibraryMessage("ADD_BOOK_FAILED");
 			
