@@ -71,7 +71,7 @@ public class LibraryMessage extends BasicMessage{
 	}
 	
 	/*
-	 * 借书信息
+	 * 借书请求信息
 	 */
 	public LibraryMessage(String rtype,String BookName,String BookID,int Storage,String stuNumber,String stuName,String LendDate){
 		super(mtype,rtype);
@@ -81,6 +81,17 @@ public class LibraryMessage extends BasicMessage{
 		this.setStuNumber(stuNumber);
 		this.setLendDate(LendDate);
 		this.setStorage(Storage);
+	}
+	
+	/*
+	 * 已借图书信息
+	 */
+	public LibraryMessage(String rtype,String bookName,String bookID,String author,String lendDate){
+		super(mtype,rtype);
+		this.setBookID(bookID);
+		this.setBookName(bookName);
+		this.setAuther(author);
+		this.setLendDate(lendDate);
 	}
 	
 	public LibraryMessage(String result){

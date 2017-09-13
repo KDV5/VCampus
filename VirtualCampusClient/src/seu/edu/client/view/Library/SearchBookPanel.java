@@ -26,8 +26,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JTextPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 
 import java.awt.Font;
 import javax.swing.JTable;
@@ -42,6 +44,7 @@ public class SearchBookPanel extends JPanel {
 	private SocketClient socketClient = null;
 	Vector headName =new Vector();
     Vector data = new Vector();	
+    private JTable hotKeywords;
 
 	/**
 	 * Create the panel.
@@ -57,8 +60,8 @@ public class SearchBookPanel extends JPanel {
 		panel.setBounds(0, 0, 814, 640);
 		add(panel);
 		
-		//搜索按钮的响应函数
-		JButton searchButton = new JButton("");
+		
+		final JButton searchButton = new JButton("");
 		searchButton.setBounds(699, 43, 24, 24);
 
 		panel.setLayout(null);
@@ -68,10 +71,11 @@ public class SearchBookPanel extends JPanel {
 		searchButton.setBorderPainted(false);	// 不绘制按钮边框
 		panel.add(searchButton);
 
+		
 		String[] searchType ={"书名","作者","出版社"};
-		JComboBox comboBox = new JComboBox(searchType);
-		comboBox.setBounds(60, 38, 126, 35);
-		panel.add(comboBox);
+		final JComboBox typeComboBox = new JComboBox(searchType);
+		typeComboBox.setBounds(60, 38, 126, 35);
+		panel.add(typeComboBox);
 		
 		keyWordField = new JTextField();
 		keyWordField.setBounds(207, 32, 529, 47);
@@ -80,11 +84,48 @@ public class SearchBookPanel extends JPanel {
 		keyWordField.setColumns(10);
 		
 		JTextPane hotWord = new JTextPane();
-		hotWord.setBounds(58, 86, 139, 24);
+		hotWord.setBounds(58, 86, 96, 24);
 		hotWord.setFont(new Font("微软雅黑", Font.PLAIN, 15));
 		hotWord.setText("热搜关键词：");
 		hotWord.setOpaque(false);
 		panel.add(hotWord);	
+		
+		//创建热搜表格并为其赋值
+		DefaultTableModel hotKeywordsTableMode =new DefaultTableModel(0, 5);
+		sc.sendRequestToServer(new LibraryMessage("GET_TOP5_KEYWORDS", ""));
+		ListMessage lm=(ListMessage)(sc.receiveDataFromServer());
+		Vector row=new Vector();
+		for(int i=0;i<lm.getDataList().size();i++){			
+			row.add(((LibraryMessage)(lm.getDataList().get(i))).getBookID());
+		}
+		hotKeywordsTableMode.addRow(row);		
+		hotKeywords = new JTable(hotKeywordsTableMode){    //设置jtable的单元格为透明的
+			public Component prepareRenderer(TableCellRenderer renderer,int row,int column){
+					Component c=super.prepareRenderer(renderer,row,column);
+					if(c instanceof JComponent){
+						((JComponent)c).setOpaque(false);
+						}
+					return c;
+				}
+			};
+		hotKeywords.setBounds(183, 92, 599, 18);
+		hotKeywords.setOpaque(false);
+		hotKeywords.setShowGrid(false);
+		panel.add(hotKeywords);
+		
+		//为热搜排行表格添加响应，单机文字搜索关键字
+		hotKeywords.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int row =((JTable)e.getSource()).rowAtPoint(e.getPoint()); //获得行位置 
+				int col =((JTable)e.getSource()).columnAtPoint(e.getPoint());//获得列位置 				
+				if(hotKeywords.getValueAt(row, col)!=null){
+					keyWordField.setText((String) hotKeywords.getValueAt(row, col));
+					searchButton.doClick();
+				}
+			}
+		});
+		
 
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -127,8 +168,9 @@ public class SearchBookPanel extends JPanel {
 		
 		//搜索按钮响应函数
 		searchButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {				
-				ListMessage lm=searchByBookName(keyWordField.getText());
+			public void actionPerformed(ActionEvent arg0) {
+				addHotWords(keyWordField.getText());
+				ListMessage lm=searchByKeyword((String)typeComboBox.getSelectedItem(),keyWordField.getText());				
 				setTableData(lm,resultTableModel);				
 				resultTable.validate();
 			}
@@ -136,12 +178,24 @@ public class SearchBookPanel extends JPanel {
 	}
 
 	
-	//根据书名查找书籍
-	public ListMessage searchByBookName(String bookName){
-		LibraryMessage lb=new LibraryMessage("SEARCH_BY_KEYWORDS","BOOK_NAME",bookName);
+	//根据关键字查找书籍
+	public ListMessage searchByKeyword(String keyWordsType,String keyword){
+		String keyType=null;
+		if("书名".equals(keyWordsType)){
+			keyType="BOOK_NAME";
+		}else if ("作者".equals(keyWordsType)){
+			keyType="AUTHOR";
+		}
+		LibraryMessage lb=new LibraryMessage("SEARCH_BY_KEYWORDS",keyType,keyword);
 		socketClient.sendRequestToServer(lb);	
 		ListMessage dataList=(ListMessage) socketClient.receiveDataFromServer();
 		return dataList;
+	}
+	
+	//修改热搜关键词表
+	public void addHotWords(String keyWords){
+		LibraryMessage lb =new LibraryMessage("ADD_HOT_WORDS",keyWords);
+		socketClient.sendRequestToServer(lb);	
 	}
 	
 	//设置表格内容

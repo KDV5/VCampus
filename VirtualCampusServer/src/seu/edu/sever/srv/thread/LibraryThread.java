@@ -47,6 +47,15 @@ public class LibraryThread extends Thread{
 			else if("EDIT_BOOK".equals(lm.getRequestType())){
 				requestThread.SendToClient(eb.editBook(lm));	
 			}
+			else if("ADD_HOT_WORDS".equals(lm.getRequestType())){
+				sb.addHotWords(lm);	
+			}
+			else if("GET_TOP5_KEYWORDS".equals(lm.getRequestType())){
+				requestThread.SendToClient(sb.TopFiveHotKeyword());
+			}
+			else if("GET_BORROWED".equals(lm.getRequestType())){
+				requestThread.SendToClient(sb.GetBorrowedBooks(lm.getBookID()));
+			}
 	//	}
 		
 	}
