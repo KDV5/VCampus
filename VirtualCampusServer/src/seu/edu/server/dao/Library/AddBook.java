@@ -43,7 +43,7 @@ public class AddBook {
 			    //pst.setString(3, intro);  
 			    pst.setString(3,libMessage.getBookID());
 			    pst.executeUpdate();
-			    return new LibraryMessage("ADD_BOOK_NUMBER_SUCCEED");
+			    return new LibraryMessage("ADD_BOOK_SUCCEED");
 		    }else{
 		    	//若入库图书未存在
 			     sql="insert into tblBooks(BookID,BookName,Author,Place,Storage,TotalNumber,Introduction,Type,LendTimes) values(?,?,?,?,?,?,?,?,?)";
@@ -60,8 +60,8 @@ public class AddBook {
 			     pst.executeUpdate();			     
 			     Image image = libMessage.getIcon().getImage();	// 获取message中的图片			    
 			     BufferedImage image1 = ImageToBufferImage.toBufferedImage(image); // 
-			     ImageIO.write(image1, "jpg", new File("GoodsImage\\"+libMessage.getBookID()+".jpg"));
-			     return new LibraryMessage("ADD_NEW_BOOK_SUCCEED");
+			     ImageIO.write(image1, "jpg", new File("Image\\BookImage\\"+libMessage.getBookID()+".jpg"));
+			     return new LibraryMessage("ADD_BOOK_SUCCEED");
 			     }	  
 		}catch(Exception e){
 			e.printStackTrace();			

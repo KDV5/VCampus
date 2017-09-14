@@ -90,7 +90,7 @@ public class SearchBookPanel extends JPanel {
 		panel.add(hotWord);	
 		
 		//创建热搜表格并为其赋值
-	/*	DefaultTableModel hotKeywordsTableMode =new DefaultTableModel(0, 5);
+		DefaultTableModel hotKeywordsTableMode =new DefaultTableModel(0, 5);
 		sc.sendRequestToServer(new LibraryMessage("GET_TOP5_KEYWORDS", ""));
 		ListMessage lm=(ListMessage)(sc.receiveDataFromServer());
 		Vector row=new Vector();
@@ -123,7 +123,7 @@ public class SearchBookPanel extends JPanel {
 					searchButton.doClick();
 				}
 			}
-		}); */
+		}); 
 		
 
 		

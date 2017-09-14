@@ -34,6 +34,7 @@ public class MainWindow extends OnlyFrame {
 	
 	private SearchBookPanel seachBookPanel=null;
 	private BorrowedBookPanel borrowedBookPanel =null;
+	private AddBookPanel addBookPanel=null;
 	
 	private SlidePanel sp=null;
 
@@ -81,9 +82,11 @@ public class MainWindow extends OnlyFrame {
 		
 		seachBookPanel=new SearchBookPanel(socketClient);
 		borrowedBookPanel =new BorrowedBookPanel(socketClient);
+		addBookPanel =new AddBookPanel(socketClient);
 		
 		panel.add(seachBookPanel, "SEARCH_BOOK_PANEL");
 		panel.add(borrowedBookPanel, "BORROWED_BOOK_PANEL");
+		panel.add(addBookPanel, "ADD_BOOK_PANEL");
 		
 		JPanel Leftsidebar = new JPanel();
 		Leftsidebar.setBounds(0, 0, 216, 750);
@@ -131,6 +134,11 @@ public class MainWindow extends OnlyFrame {
 		hotButton.setBorderPainted(false);
 		
 		JButton feedBackButton = new JButton("");
+		feedBackButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				card.show(panel, "ADD_BOOK_PANEL");
+			}
+		});
 		feedBackButton.setIcon(new ImageIcon(MainWindow.class.getResource("/UI/Library/读者反馈 static.png")));
 		feedBackButton.setRolloverIcon(new ImageIcon(MainWindow.class.getResource("/UI/Library/读者反馈 hover.png")));
 		feedBackButton.setPressedIcon(new ImageIcon(MainWindow.class.getResource("/UI/Library/读者反馈 press.png")));

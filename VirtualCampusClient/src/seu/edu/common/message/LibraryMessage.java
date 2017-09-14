@@ -1,5 +1,7 @@
 package seu.edu.common.message;
 
+import javax.swing.ImageIcon;
+
 public class LibraryMessage extends BasicMessage{
 	
 	
@@ -29,6 +31,8 @@ public class LibraryMessage extends BasicMessage{
 	String keyWordsType=null;
 	String operResult; // 表示操作成功或失败
 	
+	ImageIcon icon; //图书的图片
+	
 	
 	
 	/*
@@ -48,7 +52,25 @@ public class LibraryMessage extends BasicMessage{
 	/*
 	 * 添加图书信息
 	 */
-	public LibraryMessage(String rtype,String bookID,String bookName,String auther,String place,int totalNumber,String introduction,int storage,String publisher,String type){
+	public LibraryMessage(String rtype,String bookID,String bookName,String auther,String place,int totalNumber,int storage,String introduction,String publisher,String type,ImageIcon icon){
+		super(mtype,rtype);
+		this.setBookID(bookID);
+		this.setBookName(bookName);
+		this.setAuther(auther);
+		this.setPlace(place);
+		this.setIntroduct(introduction);
+		this.setPublisher(publisher);
+		this.setStorage(storage);
+		this.setTotalNumber(totalNumber);
+		this.setType(type);
+		this.setLendTimes(0);
+		this.setIcon(icon);
+	}
+	
+	/*
+	 * 搜索返回的图书信息
+	 */
+	public LibraryMessage(String rtype,String bookID,String bookName,String auther,String place,int totalNumber,int storage,String introduction,String publisher,String type){
 		super(mtype,rtype);
 		this.setBookID(bookID);
 		this.setBookName(bookName);
@@ -71,7 +93,7 @@ public class LibraryMessage extends BasicMessage{
 	}
 	
 	/*
-	 * 借书信息
+	 * 借书请求信息
 	 */
 	public LibraryMessage(String rtype,String BookName,String BookID,int Storage,String stuNumber,String stuName,String LendDate){
 		super(mtype,rtype);
@@ -82,6 +104,19 @@ public class LibraryMessage extends BasicMessage{
 		this.setLendDate(LendDate);
 		this.setStorage(Storage);
 	}
+	
+	/*
+	 * 已借图书信息
+	 */
+	public LibraryMessage(String rtype,String bookName,String bookID,String author,String lendDate){
+		super(mtype,rtype);
+		this.setBookID(bookID);
+		this.setBookName(bookName);
+		this.setAuther(author);
+		this.setLendDate(lendDate);
+	}
+	
+
 	
 	public LibraryMessage(String result){
 		super(mtype,"");
@@ -208,6 +243,14 @@ public class LibraryMessage extends BasicMessage{
 
 	public void setLendDate(String lendDate) {
 		this.lendDate = lendDate;
+	}
+
+	public ImageIcon getIcon() {
+		return icon;
+	}
+
+	public void setIcon(ImageIcon icon) {
+		this.icon = icon;
 	}
 	
 }
