@@ -94,15 +94,16 @@ public class LibraryMessage extends BasicMessage{
 	
 	/*
 	 * 借书请求信息
+	 * 参数中的date无意义，该信息在服务端获取
 	 */
-	public LibraryMessage(String rtype,String BookName,String BookID,int Storage,String stuNumber,String stuName,String LendDate){
+	public LibraryMessage(String rtype,String BookName,String BookID,String stuNumber,String stuName,String Date){
 		super(mtype,rtype);
 		this.setBookName(BookName);
 		this.setBookID(BookID);
 		this.setStuName(stuName);
 		this.setStuNumber(stuNumber);
-		this.setLendDate(LendDate);
-		this.setStorage(Storage);
+		//this.setLendDate(LendDate);
+		//this.setStorage(Storage);
 	}
 	
 	/*

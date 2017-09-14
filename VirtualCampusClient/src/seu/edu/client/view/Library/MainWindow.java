@@ -21,6 +21,7 @@ import java.awt.CardLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.SystemColor;
+import java.awt.Toolkit;
 
 public class MainWindow extends OnlyFrame {
 	
@@ -37,6 +38,12 @@ public class MainWindow extends OnlyFrame {
 	private AddBookPanel addBookPanel=null;
 	
 	private SlidePanel sp=null;
+	
+    public int width = Toolkit.getDefaultToolkit().getScreenSize().width;
+    public int height = Toolkit.getDefaultToolkit().getScreenSize().height;
+    // 定义窗体的宽高
+    public int windowsWedth = 1030;
+    public int windowsHeight = 750;
 
 	/**
 	 * Launch the application.
@@ -58,6 +65,7 @@ public class MainWindow extends OnlyFrame {
 	 * Create the frame.
 	 */
 	public MainWindow(SocketClient sc) {
+		setResizable(false);	
 		
 		socketClient=sc;
 		
@@ -69,10 +77,11 @@ public class MainWindow extends OnlyFrame {
 		panel.setBounds(216, 110, 814, 640);
 		panel.setLayout(card);
 		
-		sp=new SlidePanel(panel,card);
+		//设置窗口居中显示
+		setBounds((width - windowsWedth) / 2,(height - windowsHeight) / 2, 1030, 750);
 		
+		sp=new SlidePanel(panel,card);		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1030, 750);
 		contentPane = new JPanel();
 		contentPane.setForeground(SystemColor.control);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

@@ -46,7 +46,7 @@ public class AddBook {
 			    return new LibraryMessage("ADD_BOOK_SUCCEED");
 		    }else{
 		    	//若入库图书未存在
-			     sql="insert into tblBooks(BookID,BookName,Author,Place,Storage,TotalNumber,Introduction,Type,LendTimes) values(?,?,?,?,?,?,?,?,?)";
+			     sql="insert into tblBooks(BookID,BookName,Author,Place,Storage,TotalNumber,Introduction,Type,LendTimes,Publisher) values(?,?,?,?,?,?,?,?,?,?)";
 			     pst = db.conn.prepareStatement(sql);
 			     pst.setString(1,libMessage.getBookID());
 			     pst.setString(2,libMessage.getBookName());
@@ -57,6 +57,7 @@ public class AddBook {
 			     pst.setString(7,libMessage.getIntroduct());
 			     pst.setString(8,libMessage.getType());
 			     pst.setInt(9,libMessage.getLendTimes());
+			     pst.setString(10,libMessage.getPublisher());
 			     pst.executeUpdate();			     
 			     Image image = libMessage.getIcon().getImage();	// 获取message中的图片			    
 			     BufferedImage image1 = ImageToBufferImage.toBufferedImage(image); // 

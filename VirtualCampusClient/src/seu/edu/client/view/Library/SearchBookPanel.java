@@ -45,6 +45,8 @@ public class SearchBookPanel extends JPanel {
 	Vector headName =new Vector();
     Vector data = new Vector();	
     private JTable hotKeywords;
+    private ListMessage dataList=null;//存储搜索结果
+    private LibraryMessage libraryMessage=null;// 存储最近一次的请求
 
 	/**
 	 * Create the panel.
@@ -144,14 +146,18 @@ public class SearchBookPanel extends JPanel {
 		//resultTable.setEnabled(false);
 		resultTable.setBounds(35, 127, 747, 482);
 
-		//为表格添加点击相应
+		//为查找结果表格添加点击相应
 		resultTable.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				//若鼠标点击的行不为空
+				//若鼠标点击的行不为空，则弹出该书详细信息
 				int t= resultTable.getSelectedRow();
 				if(resultTable.getValueAt(resultTable.getSelectedRow(), 0)!=null){
 					int row=resultTable.getSelectedRow();
+					BorrowBookDialog borrowBookDialog=new BorrowBookDialog((LibraryMessage)(dataList.getDataList().get(row)), socketClient);
+					borrowBookDialog.setVisible(true);
+					socketClient.sendRequestToServer(libraryMessage);	
+					dataList=(ListMessage) socketClient.receiveDataFromServer();	
 					JOptionPane.showMessageDialog(null,resultTable.getValueAt(row, 1));
 				}
 			}
@@ -169,8 +175,8 @@ public class SearchBookPanel extends JPanel {
 		searchButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				addHotWords(keyWordField.getText());
-				ListMessage lm=searchByKeyword((String)typeComboBox.getSelectedItem(),keyWordField.getText());				
-				setTableData(lm,resultTableModel);				
+				searchByKeyword((String)typeComboBox.getSelectedItem(),keyWordField.getText());				
+				setTableData(dataList,resultTableModel);				
 				resultTable.validate();
 			}
 		});		
@@ -178,17 +184,16 @@ public class SearchBookPanel extends JPanel {
 
 	
 	//根据关键字查找书籍
-	public ListMessage searchByKeyword(String keyWordsType,String keyword){
+	public void searchByKeyword(String keyWordsType,String keyword){
 		String keyType=null;
 		if("书名".equals(keyWordsType)){
 			keyType="BOOK_NAME";
 		}else if ("作者".equals(keyWordsType)){
 			keyType="AUTHOR";
 		}
-		LibraryMessage lb=new LibraryMessage("SEARCH_BY_KEYWORDS",keyType,keyword);
-		socketClient.sendRequestToServer(lb);	
-		ListMessage dataList=(ListMessage) socketClient.receiveDataFromServer();
-		return dataList;
+		libraryMessage =new LibraryMessage("SEARCH_BY_KEYWORDS",keyType,keyword);
+		socketClient.sendRequestToServer(libraryMessage);	
+		dataList=(ListMessage) socketClient.receiveDataFromServer();		
 	}
 	
 	//修改热搜关键词表

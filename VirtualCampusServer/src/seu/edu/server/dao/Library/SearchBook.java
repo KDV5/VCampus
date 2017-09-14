@@ -85,9 +85,9 @@ public class SearchBook {
 						re.getString("Place"),re.getInt("TotalNumber"),re.getInt("Storage"),re.getString("Introduction"),re.getString("Publisher"),re.getString("Type"));
 				
 				//获取数据库中的图片信息
-				File file = new File("BooksImage\\"+re.getString("BookID")+".jpg");
+				File file = new File("Image\\BookImage\\"+re.getString("BookID")+".jpg");
 				if(file.exists()){// 若该ID对应图片存在
-					b1.setIcon(new ImageIcon("BooksImage\\"+re.getString("BookID")+".jpg"));
+					b1.setIcon(new ImageIcon("Image\\BookImage\\"+re.getString("BookID")+".jpg"));
 				}else{// 若图片不存在
 					b1.setIcon(null);
 				}

@@ -37,6 +37,8 @@ import javax.swing.JFileChooser;
 import javax.swing.JTextPane;
 import javax.swing.table.DefaultTableModel;
 
+import org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper;
+
 import java.awt.Font;
 import java.awt.Image;
 
@@ -70,15 +72,17 @@ public class AddBookPanel extends JPanel {
     private JLabel insertImage=null;
 
 	/**
-	 * Create the panel.
+	 * @author yyl
+	 * 9.13 添加图书面板
 	 */
 	
 	public AddBookPanel(SocketClient sc) {
-		try{
-			// UIManager.setLookAndFeel("org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper.launchBeautyEyeLNF");
-		}catch(Throwable e){
-			e.printStackTrace();
-		}
+//		try{
+//	    	BeautyEyeLNFHelper.frameBorderStyle = BeautyEyeLNFHelper.FrameBorderStyle.translucencyAppleLike;
+//	    	org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper.launchBeautyEyeLNF();    
+//		}catch(Throwable e){
+//			e.printStackTrace();
+//		}
 		
 		socketClient=sc;
 		
@@ -131,7 +135,7 @@ public class AddBookPanel extends JPanel {
 		panel.add(insertImage);
 
 		
-		bookName = new JTextField();
+		bookName = new JTextField();		
 		setTextField(bookName, 1);
 		panel.add(bookName);
 		
@@ -169,7 +173,7 @@ public class AddBookPanel extends JPanel {
 		
 		//简介文本框
 		final JTextArea introTextArea = new JTextArea();
-		introTextArea.setText("aaaaaa");
+		introTextArea.setFont(new Font("微软雅黑", Font.PLAIN, 15));
 		introTextArea.setBounds(55, 380, 702, 157);
 		introTextArea.setOpaque(false);
 		introScrollPane.add(introTextArea);	
@@ -217,6 +221,7 @@ public class AddBookPanel extends JPanel {
 	private void setTextField(JTextField t,int i){
 		t.setColumns(10);
 		t.setBounds(147, 53+35*(i-1), 351, 27);
+		t.setFont(new Font("微软雅黑", Font.PLAIN, 17));
 		t.setOpaque(false);
 		t.setBorder(null); 
 	}
