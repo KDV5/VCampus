@@ -8,7 +8,6 @@ import javax.swing.JPopupMenu;
 import com.only.OnlyPopupMenu;
 import com.only.OnlyScrollPane;
 
-import javafx.beans.binding.ListBinding;
 import seu.edu.common.SocketClient;
 import seu.edu.common.message.LibraryMessage;
 import seu.edu.common.message.ListMessage;

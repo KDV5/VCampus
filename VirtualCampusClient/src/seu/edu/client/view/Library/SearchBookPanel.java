@@ -7,7 +7,6 @@ import javax.swing.JPopupMenu;
 
 import com.only.OnlyPopupMenu;
 
-import javafx.beans.binding.ListBinding;
 import seu.edu.common.SocketClient;
 import seu.edu.common.message.LibraryMessage;
 import seu.edu.common.message.ListMessage;
@@ -155,6 +154,7 @@ public class SearchBookPanel extends JPanel {
 				if(resultTable.getValueAt(resultTable.getSelectedRow(), 0)!=null){
 					int row=resultTable.getSelectedRow();
 					BorrowBookDialog borrowBookDialog=new BorrowBookDialog((LibraryMessage)(dataList.getDataList().get(row)), socketClient);
+					com.sun.awt.AWTUtilities.setWindowOpaque(borrowBookDialog, false);
 					borrowBookDialog.setVisible(true);
 					socketClient.sendRequestToServer(libraryMessage);	
 					dataList=(ListMessage) socketClient.receiveDataFromServer();	

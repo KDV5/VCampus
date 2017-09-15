@@ -47,20 +47,21 @@ public class BorrowBookDialog extends JDialog {
 	/**
 	 * Launch the application.
 	 */
-/*	public static void main(String[] args) {
+	public static void main(String[] args) {
 		try {
-			BorrowBookDialog dialog = new BorrowBookDialog();
+			BorrowBookDialog dialog = new BorrowBookDialog(new LibraryMessage("aaa"),new SocketClient());
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	} */
+	} 
 
 	/**
 	 * Create the dialog.
 	 */
 	public BorrowBookDialog(LibraryMessage lm,SocketClient sc) {
+		
 		libraryMessage=lm;
 		socketClient=sc;
 		setBounds((width - windowsWedth) / 2,(height - windowsHeight) / 2,701, 555);
@@ -87,7 +88,7 @@ public class BorrowBookDialog extends JDialog {
 		
 		//简介文本框
 		final JTextArea introTextArea = new JTextArea();
-		introTextArea.setText("aaaaaa");
+		introTextArea.setText("");
 		introTextArea.setBounds(55, 380, 702, 157);
 		introTextArea.setOpaque(false);
 		introScrollPane.add(introTextArea);	
@@ -172,6 +173,9 @@ public class BorrowBookDialog extends JDialog {
 		getContentPane().add(contentPanel);
 		contentPanel.setLayout(null);
 		this.setUndecorated(true);
+		setBackground(new Color(0,0,0,0));
+		panel.setOpaque(false);
+		setContentPane(panel);
 		//this.setBackground (new Color (0, 0, 0, 0));
 		
 		//设置各个文本框内容
