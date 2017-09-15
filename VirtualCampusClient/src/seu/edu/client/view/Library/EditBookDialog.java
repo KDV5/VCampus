@@ -22,7 +22,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
 
-public class BorrowBookDialog extends JDialog {
+public class EditBookDialog extends JDialog {
 
 	private SocketClient socketClient = null;
 	
@@ -49,7 +49,7 @@ public class BorrowBookDialog extends JDialog {
 	 */
 	public static void main(String[] args) {
 		try {
-			BorrowBookDialog dialog = new BorrowBookDialog(new LibraryMessage("aaa"),new SocketClient());
+			EditBookDialog dialog = new EditBookDialog(new LibraryMessage("aaa"),new SocketClient());
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -60,7 +60,7 @@ public class BorrowBookDialog extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public BorrowBookDialog(LibraryMessage lm,SocketClient sc) {
+	public EditBookDialog(LibraryMessage lm,SocketClient sc) {
 		
 		libraryMessage=lm;
 		socketClient=sc;
@@ -83,7 +83,7 @@ public class BorrowBookDialog extends JDialog {
 		
 		//简介滚动条
 		JScrollPane introScrollPane = new JScrollPane();
-		introScrollPane.setBounds(55, 333, 584, 145);
+		introScrollPane.setBounds(55, 361, 584, 117);
 		panel.add(introScrollPane);
 		
 		//简介文本框
@@ -119,8 +119,18 @@ public class BorrowBookDialog extends JDialog {
 				
 			}
 		});
-		borrowButton.setIcon(new ImageIcon(BorrowBookDialog.class.getResource("/UI/Library/借阅.png")));
-		borrowButton.setBounds(253, 488, 75, 30);
+		
+		//删除图书按钮响应
+		JButton deledtButton = new JButton("");
+		deledtButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		deledtButton.setIcon(new ImageIcon(EditBookDialog.class.getResource("/UI/Library/删除.png")));
+		deledtButton.setBounds(186, 488, 75, 30);
+		panel.add(deledtButton);
+		borrowButton.setIcon(new ImageIcon(EditBookDialog.class.getResource("/UI/Library/修改.png")));
+		borrowButton.setBounds(314, 488, 75, 30);
 		panel.add(borrowButton);
 		
 		JButton backButton = new JButton("");
@@ -129,8 +139,8 @@ public class BorrowBookDialog extends JDialog {
 				dispose();
 			}
 		});
-		backButton.setIcon(new ImageIcon(BorrowBookDialog.class.getResource("/UI/Library/返回.png")));
-		backButton.setBounds(381, 488, 75, 30);
+		backButton.setIcon(new ImageIcon(EditBookDialog.class.getResource("/UI/Library/返回.png")));
+		backButton.setBounds(442, 488, 75, 30);
 		panel.add(backButton);
 		
 		nameTextField = new JTextField();
@@ -165,12 +175,12 @@ public class BorrowBookDialog extends JDialog {
 		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setBounds(0, 0, 701, 555);
 		panel.add(lblNewLabel);
-		lblNewLabel.setIcon(new ImageIcon(BorrowBookDialog.class.getResource("/UI/Library/借书Dialog.png")));
+		lblNewLabel.setIcon(new ImageIcon(EditBookDialog.class.getResource("/UI/Library/编辑图书.png")));
 		
 		
 		contentPanel.setBounds(0, 0, 701, 555);
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-		//getContentPane().add(contentPanel);
+		getContentPane().add(contentPanel);
 		contentPanel.setLayout(null);
 		this.setUndecorated(true);
 		setBackground(new Color(0,0,0,0));

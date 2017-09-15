@@ -114,13 +114,9 @@ public class AddBookPanel extends JPanel {
 					BufferedImage bi=ImageIO.read(is);
 					Image image1 = (Image)bi;
 					icon = new ImageIcon(image1);
-					//sData.setIcon(icon);
-					//JLabel pic = new JLabel(icon);
-	    			//pic.setBounds(0,0, 200,200);
 	    			insertImage.setIcon(icon);
 	    			repaint();
-	    			//p1.add(pic);
-	    			//p1.repaint();
+
 				}
 					catch (Exception e1) {
 						e1.printStackTrace();
