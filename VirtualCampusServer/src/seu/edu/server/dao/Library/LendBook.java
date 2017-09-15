@@ -43,24 +43,27 @@ public class LendBook {
 					  tmpCounter++;
 					  }   
 				if(tmpCounter==0){		    
-				    
+				    //可借数量减1
 					sql = "update tblBooks set Storage=(Storage-1) where BookID=?";
 					pst = db.conn.prepareStatement(sql);
 					pst.setString(1, libMessage.getBookID());
 				    pst.executeUpdate();
+				    //借阅次数加一
 				    sql = "update tblBooks set LendTimes=(LendTimes+1) where BookID=?";
 					pst = db.conn.prepareStatement(sql);
 					pst.setString(1, libMessage.getBookID());
 				    pst.executeUpdate();
 				    String lendDate= dateFormat.format(new Date());
 				    String returnDate=getPreMonth(lendDate);
-					sql="insert into tblLendBooks (BookName,BookID,stuNumber,stuName,LendDate) values(?,?,?,?,?)";
+				    //借阅记录存入借书表
+					sql="insert into tblLendBooks (BookName,BookID,stuNumber,stuName,LendDate,Return) values(?,?,?,?,?,?)";
 				    pst = db.conn.prepareStatement(sql);
 				    pst.setString(1, libMessage.getBookName());
 				    pst.setString(2, libMessage.getBookID());
 				    pst.setString(3, libMessage.getStuName());
 				    pst.setString(4, libMessage.getStuNumber());
 				    pst.setString(5, returnDate);
+				    pst.setBoolean(6, false);
 				    pst.executeUpdate();
 				    return new LibraryMessage("LEND_BOOK_SUCCEED");//借书成功
 				    

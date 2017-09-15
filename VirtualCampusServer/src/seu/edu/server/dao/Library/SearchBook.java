@@ -84,13 +84,14 @@ public class SearchBook {
 				LibraryMessage b1=new LibraryMessage("SERACH_BY_KEYWORDS",re.getString("BookID"),re.getString("BookName"),re.getString("Author"),
 						re.getString("Place"),re.getInt("TotalNumber"),re.getInt("Storage"),re.getString("Introduction"),re.getString("Publisher"),re.getString("Type"));
 				
-				//获取数据库中的图片信息
-				File file = new File("Image\\BookImage\\"+re.getString("BookID")+".jpg");
-				if(file.exists()){// 若该ID对应图片存在
-					b1.setIcon(new ImageIcon("Image\\BookImage\\"+re.getString("BookID")+".jpg"));
-				}else{// 若图片不存在
-					b1.setIcon(null);
-				}
+//				//获取数据库中的图片信息
+//				File file = new File("Image\\BookImage\\"+re.getString("BookID")+".jpg");
+//				if(file.exists()){// 若该ID对应图片存在
+//					b1.setIcon(new ImageIcon("Image\\BookImage\\"+re.getString("BookID")+".jpg"));
+//				}else{// 若图片不存在
+//					b1.setIcon(null);
+//				}
+				getImage(b1);
 				bookList.add(b1);				
 			}
 			return new ListMessage("Library","ListAllBooks",bookList);
@@ -161,13 +162,14 @@ public class SearchBook {
 	//获取已借图书
 	public ListMessage GetBorrowedBooks(String stuID){
 		try{
-			sql="SELECT * FROM tblLendBooks WHERE stuNumber LIKE  ?  ORDER BY LendDate ";
+			sql="SELECT * FROM tblLendBooks WHERE stuNumber =  ? and Return = false ORDER BY LendDate ";
 			pst = db.conn.prepareStatement(sql);
 			pst.setString(1,stuID);	
 			ResultSet rs = pst.executeQuery();
 			ArrayList<BasicMessage> bookList =new ArrayList<BasicMessage>();
 			while(rs.next()){		
 				LibraryMessage b1=new LibraryMessage("GET_BORROWED",rs.getString("BookName"),rs.getString("BookID"),rs.getString("Author"),rs.getString("LendDate"));
+				getImage(b1);
 				bookList.add(b1);				
 			}
 			return new ListMessage("Library","GET_BORROWED",bookList);
@@ -180,6 +182,35 @@ public class SearchBook {
 
 	}
 	
+	public ListMessage GetHotBooks(){
+		try{
+			sql="SELECT TOP 30 * FROM tblBooks ORDER BY LendTimes DESC";
+			pst=db.conn.prepareStatement(sql);
+			ResultSet rs=pst.executeQuery();
+			ArrayList<BasicMessage> bookList =new ArrayList<BasicMessage>();
+			while(rs.next()){		
+				LibraryMessage b1=new LibraryMessage("GET_BORROWED",rs.getString("BookName"),rs.getString("BookID"),rs.getString("Author"),rs.getString("LendDate"));
+				getImage(b1);
+				bookList.add(b1);				
+			}
+			return new ListMessage("Library","GET_HOT_BOOKS",bookList);
+			
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+		
+	}
+	
+	private void getImage(LibraryMessage lm){
+		//获取数据库中的图片信息
+		File file = new File("Image\\BookImage\\"+lm.getBookID()+".jpg");
+		if(file.exists()){// 若该ID对应图片存在
+			lm.setIcon(new ImageIcon("Image\\BookImage\\"+lm.getBookID()+".jpg"));
+		}else{// 若图片不存在
+			lm.setIcon(null);
+		}
+	}
 	
 	
 	

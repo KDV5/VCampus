@@ -36,6 +36,7 @@ public class UserView extends OnlyFrame {
 	private SearchBookPanel seachBookPanel=null;
 	private BorrowedBookPanel borrowedBookPanel =null;
 	private AddBookPanel addBookPanel=null;
+	private HotBookPanel hotBookPanel=null;
 	
 	private SlidePanel sp=null;
 	
@@ -93,6 +94,7 @@ public class UserView extends OnlyFrame {
 		borrowedBookPanel =new BorrowedBookPanel(socketClient);
 		addBookPanel =new AddBookPanel(socketClient);
 		
+		
 		panel.add(seachBookPanel, "SEARCH_BOOK_PANEL");
 		panel.add(borrowedBookPanel, "BORROWED_BOOK_PANEL");
 		panel.add(addBookPanel, "ADD_BOOK_PANEL");
@@ -122,6 +124,7 @@ public class UserView extends OnlyFrame {
 		JButton borrowedBookbutton = new JButton("");
 		borrowedBookbutton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				borrowedBookPanel.refresh();
 				card.show(panel, "BORROWED_BOOK_PANEL");
 			}
 		});

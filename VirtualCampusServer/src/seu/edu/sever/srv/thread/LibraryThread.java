@@ -25,6 +25,7 @@ public class LibraryThread extends Thread{
 	private EditBook eb=new EditBook();
 	private AddBook ab=new AddBook();
 	private LendBook lb=new LendBook();
+	private ReturnBook rb = new ReturnBook();
 	private RequestThread requestThread=null;
 	private LibraryMessage lm=null;
 	public LibraryThread(RequestThread rt ,LibraryMessage content){
@@ -54,11 +55,17 @@ public class LibraryThread extends Thread{
 			else if("GET_TOP5_KEYWORDS".equals(lm.getRequestType())){
 				requestThread.SendToClient(sb.TopFiveHotKeyword());
 			}
+			else if("GET_HOT_BOOKS".equals(lm.getRequestType())){
+				requestThread.SendToClient(sb.GetHotBooks());
+			}
 			else if("GET_BORROWED".equals(lm.getRequestType())){
 				requestThread.SendToClient(sb.GetBorrowedBooks(lm.getBookID()));// 此处bookID实际为学生ID
 			}
 			else if("LEND_BOOK".equals(lm.getRequestType())){
 				requestThread.SendToClient(lb.lendBook(lm));
+			}
+			else if("RETURN_BOOK".equals(lm.getRequestType())){
+				requestThread.SendToClient(rb.returnBook(lm));
 			}
 			
 	//	}

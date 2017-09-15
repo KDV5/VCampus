@@ -7,7 +7,7 @@ import javax.swing.JPopupMenu;
 
 import com.only.OnlyPopupMenu;
 
-import seu.edu.MessageDialog.MessageDialog;
+
 import seu.edu.common.SocketClient;
 import seu.edu.common.message.LibraryMessage;
 import seu.edu.common.message.ListMessage;
@@ -37,21 +37,22 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.table.TableModel;
 
-public class BorrowedBookPanel extends JPanel {
+public class HotBookPanel extends JPanel {
 	private SocketClient socketClient = null;
 	Vector headName =new Vector();
     Vector data = new Vector();	
     private JTable borrowedTable;
-    private MessageDialog md=new MessageDialog();
-    private DefaultTableModel borrowedTableModel=null;
     String stuID="09015429";
-
+    private ListMessage dataList=null;//存储搜索结果
+    
 
 	/**
-	 * Create the panel.
+	 * @author yyl
+	 * 热门借阅推荐
+	 * 显示借阅次数排在前30的书籍
 	 */
 	
-	public BorrowedBookPanel(SocketClient sc) {
+	public HotBookPanel(SocketClient sc) {
 		socketClient=sc;
 		
 		setLayout(null);
@@ -63,66 +64,49 @@ public class BorrowedBookPanel extends JPanel {
 		panel.setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(34, 34, 747, 573);
+		scrollPane.setBounds(41, 99, 732, 507);
 		panel.add(scrollPane);		
 		
-		String[] tableHead={"书籍编号","书名","作者","出版社","借书日期",""};
+		String[] tableHead={"书名","作者","出版社","馆藏本数","可借本数"};
 		for(int i=0;i<tableHead.length;i++){			
 			headName.add(tableHead[i]);		
 		}    
-	    borrowedTableModel=new DefaultTableModel(data, headName);
+	    final DefaultTableModel borrowedTableModel=new DefaultTableModel(data, headName);
 		borrowedTable = new JTable(borrowedTableModel);
 		borrowedTable.setBounds(0, 0, 747, 573);
+		scrollPane.setViewportView(borrowedTable);
 		
-		//为借书表格添加点击相应
 		borrowedTable.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				//若鼠标点击的行不为空，则弹出该书详细信息
-				int t= borrowedTable.getSelectedRow();
+				int t=borrowedTable.getSelectedRow();
 				if(borrowedTable.getValueAt(borrowedTable.getSelectedRow(), 0)!=null){
 					int row=borrowedTable.getSelectedRow();
-					String bookName=(String) borrowedTable.getValueAt(row, 2);
-					if(md.showMessage("YES_NO", "您确定要归还 "+bookName+" 吗？")){
-						LibraryMessage lm=new LibraryMessage("RETURN_BOOK",(String) borrowedTable.getValueAt(row, 1), stuID);
-						socketClient.sendRequestToServer(lm);
-						LibraryMessage result=(LibraryMessage)socketClient.receiveDataFromServer();
-						if(result.getOperResult().equals("RETURN_BOOK_SUCCEED")){
-							md.showMessage("SUCCEED", "还书成功");
-						}else{
-							md.showMessage("ERROR", "还书失败");
-						}
-					}else{
-						
-					}
-//					BorrowBookDialog borrowBookDialog=new BorrowBookDialog((LibraryMessage)(dataList.getDataList().get(row)), socketClient);
-//					//com.sun.awt.AWTUtilities.setWindowOpaque(borrowBookDialog, false);
-//					borrowBookDialog.setVisible(true);
-//					socketClient.sendRequestToServer(libraryMessage);	
-//					dataList=(ListMessage) socketClient.receiveDataFromServer();	
-//					JOptionPane.showMessageDialog(null,resultTable.getValueAt(row, 1));
+					BorrowBookDialog borrowBookDialog=new BorrowBookDialog((LibraryMessage)(dataList.getDataList().get(row)), socketClient);
+					//com.sun.awt.AWTUtilities.setWindowOpaque(borrowBookDialog, false);
+					borrowBookDialog.setVisible(true);
 				}
 			}
 		});
-		
-		scrollPane.setViewportView(borrowedTable);		
+
 	
 		JLabel backGround = new JLabel("");
 		backGround.setBounds(0, 0, 814, 640);
-		backGround.setIcon(new ImageIcon(BorrowedBookPanel.class.getResource("/UI/Library/PanelBackGround.png")));
+		backGround.setIcon(new ImageIcon(HotBookPanel.class.getResource("/UI/Library/热门推荐 pane.png")));
 		panel.add(backGround);
 		
-		setTableData(getBorrowedBooks(stuID),borrowedTableModel);
+		getBorrowedBooks();
+		setTableData(dataList,borrowedTableModel);
 		borrowedTable.validate();
 	}
 	
-	//获取已借图书
-	public ListMessage getBorrowedBooks(String stuID){
+	//获取前30图书
+	public void getBorrowedBooks(){
 		
-		LibraryMessage lm=new LibraryMessage("GET_BORROWED",stuID);
-		socketClient.sendRequestToServer(lm);
-		ListMessage dataList=(ListMessage) socketClient.receiveDataFromServer();
-		return dataList;
+		socketClient.sendRequestToServer(new LibraryMessage("GET_HOT_BOOKS", ""));
+		ListMessage lm=(ListMessage)(socketClient.receiveDataFromServer());
+		this.dataList=lm;
 		
 	}
 	
@@ -139,22 +123,18 @@ public class BorrowedBookPanel extends JPanel {
 		int i=0;
 			for(;i<rs.getDataList().size();i++){
 				row=new Vector();
-				row.add(((LibraryMessage)(rs.getDataList().get(i))).getBookID());
 				row.add(((LibraryMessage)(rs.getDataList().get(i))).getBookName());
 				row.add(((LibraryMessage)(rs.getDataList().get(i))).getAuther());
 				row.add(((LibraryMessage)(rs.getDataList().get(i))).getPublisher());
-				row.add(((LibraryMessage)(rs.getDataList().get(i))).getLendDate());
+				row.add(((LibraryMessage)(rs.getDataList().get(i))).getTotalNumber());
+				row.add(((LibraryMessage)(rs.getDataList().get(i))).getStorage());
 				//data.add(row);		
 				dtm.addRow(row);
 			}
 
 	}
-	
-	//刷新该面板内容
-	public void refresh(){
-		setTableData(getBorrowedBooks(stuID),borrowedTableModel);
-		borrowedTable.validate();
-	}
 }
+
+
 
 

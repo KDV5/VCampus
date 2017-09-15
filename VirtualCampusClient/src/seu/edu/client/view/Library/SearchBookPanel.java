@@ -154,7 +154,7 @@ public class SearchBookPanel extends JPanel {
 				if(resultTable.getValueAt(resultTable.getSelectedRow(), 0)!=null){
 					int row=resultTable.getSelectedRow();
 					BorrowBookDialog borrowBookDialog=new BorrowBookDialog((LibraryMessage)(dataList.getDataList().get(row)), socketClient);
-					com.sun.awt.AWTUtilities.setWindowOpaque(borrowBookDialog, false);
+					//com.sun.awt.AWTUtilities.setWindowOpaque(borrowBookDialog, false);
 					borrowBookDialog.setVisible(true);
 					socketClient.sendRequestToServer(libraryMessage);	
 					dataList=(ListMessage) socketClient.receiveDataFromServer();	
