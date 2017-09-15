@@ -2,7 +2,7 @@ package seu.edu.client.test;
 
 
 import seu.edu.MessageDialog.MessageDialog;
-import seu.edu.client.view.Library.MainWindow;
+import seu.edu.client.view.Library.UserView;
 import seu.edu.common.SocketClient;
 import seu.edu.common.message.LibraryMessage;
 

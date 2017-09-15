@@ -10,7 +10,9 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ChangeListener;
 
+import seu.edu.MessageDialog.MessageDialog;
 import seu.edu.common.SocketClient;
 import seu.edu.common.message.LibraryMessage;
 
@@ -20,7 +22,12 @@ import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
+import javax.swing.SpinnerModel;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.UIManager;
 import javax.swing.JTextArea;
+import javax.swing.JSpinner;
+import java.awt.Font;
 
 public class EditBookDialog extends JDialog {
 
@@ -33,12 +40,13 @@ public class EditBookDialog extends JDialog {
 	private JTextField TypeTextField;
 	private JTextField idTextField;
 	private JTextField placeTextField;
-	private JTextField storageTextField;
 
 	private LibraryMessage libraryMessage;
 	String stuNumber=null;
 	String stuName=null;
 	
+	private MessageDialog md=new MessageDialog(); 
+			
     public int width = Toolkit.getDefaultToolkit().getScreenSize().width;
     public int height = Toolkit.getDefaultToolkit().getScreenSize().height;
     // 定义窗体的宽高
@@ -62,19 +70,23 @@ public class EditBookDialog extends JDialog {
 	 */
 	public EditBookDialog(LibraryMessage lm,SocketClient sc) {
 		
+		UIManager.getSystemLookAndFeelClassName();
+		
+		//设置对话框样式
 		libraryMessage=lm;
 		socketClient=sc;
-		setBounds((width - windowsWedth) / 2,(height - windowsHeight) / 2,701, 555);
-		//setBounds(100, 100, 701, 555);
-		getContentPane().setLayout(null);
-		
-		setModal(true);
-		
+		setBounds((width - windowsWedth) / 2,(height - windowsHeight) / 2,701, 555);		
+		getContentPane().setLayout(null);		
+		setModal(true);		
 		JPanel panel = new JPanel();
 		panel.setBounds(0, 0, 701, 555);
-		//getContentPane().add(panel);
 		panel.setLayout(null);
+		this.setUndecorated(true);
+		setBackground(new Color(0,0,0,0));
+		panel.setOpaque(false);
+		setContentPane(panel);
 		
+		//添加背景图片
 		JLabel bookImage = new JLabel("");
 		bookImage.setForeground(Color.DARK_GRAY);
 		bookImage.setBackground(Color.BLACK);
@@ -94,59 +106,26 @@ public class EditBookDialog extends JDialog {
 		introScrollPane.add(introTextArea);	
 		introScrollPane.setViewportView(introTextArea);
 		
-		//借阅按钮响应函数
-		JButton borrowButton = new JButton("");
-		borrowButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-					//首先判断是否有库存
-					if(storageTextField.getColumns()>0){
-					LibraryMessage lm=new LibraryMessage("LEND_BOOK",nameTextField.getText(), idTextField.getText(), stuNumber, stuName);
-					socketClient.sendRequestToServer(lm);
-					LibraryMessage result= (LibraryMessage)(socketClient.receiveDataFromServer());
-					if(result.getOperResult().equals("LEND_BOOKS_FULL")){
-						JOptionPane.showMessageDialog(null, "结束数量已达到最大值，借书失败");
-					}else{
-						if(result.getOperResult().equals("LEND_BOOK_TWICE")){
-							JOptionPane.showMessageDialog(null, "已借过这本书");
-						}
-						else if(result.getOperResult().equals("LEND_BOOK_SUCCEED")){
-							JOptionPane.showMessageDialog(null, "借书成功");
-						}
-					}
-				}else{
-					JOptionPane.showMessageDialog(null, "这本书已经借光了");
-				}
-				
-			}
-		});
-		
-		//删除图书按钮响应
+		//创建借阅按钮
+		JButton editButton = new JButton("");
+		editButton.setIcon(new ImageIcon(EditBookDialog.class.getResource("/UI/Library/修改.png")));
+		editButton.setBounds(314, 488, 75, 30);
+		panel.add(editButton);	
+		//删除图书按钮
 		JButton deledtButton = new JButton("");
-		deledtButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
 		deledtButton.setIcon(new ImageIcon(EditBookDialog.class.getResource("/UI/Library/删除.png")));
 		deledtButton.setBounds(186, 488, 75, 30);
 		panel.add(deledtButton);
-		borrowButton.setIcon(new ImageIcon(EditBookDialog.class.getResource("/UI/Library/修改.png")));
-		borrowButton.setBounds(314, 488, 75, 30);
-		panel.add(borrowButton);
-		
+		//返回按钮
 		JButton backButton = new JButton("");
-		backButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				dispose();
-			}
-		});
 		backButton.setIcon(new ImageIcon(EditBookDialog.class.getResource("/UI/Library/返回.png")));
 		backButton.setBounds(442, 488, 75, 30);
 		panel.add(backButton);
 		
+		//创建文本框
 		nameTextField = new JTextField();
 		setTextField(nameTextField,1);
 		panel.add(nameTextField);
-
 		
 		authorTextField = new JTextField();
 		setTextField(authorTextField,2);
@@ -168,25 +147,18 @@ public class EditBookDialog extends JDialog {
 		setTextField(placeTextField,6);
 		panel.add(placeTextField);
 		
-		storageTextField = new JTextField();
-		setTextField(storageTextField,7);
-		panel.add(storageTextField);
+		//设置 最小值、初始值为0，最大值为100、间隔为1
+		SpinnerModel spm=new SpinnerNumberModel(0,0,100,1);
+				
+		final JSpinner storageSpinner = new JSpinner(spm);
+		storageSpinner.setFont(new Font("微软雅黑", Font.PLAIN, 17));
+		storageSpinner.setBounds(135, 270, 241, 30);
+		panel.add(storageSpinner);
 		
-		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setBounds(0, 0, 701, 555);
-		panel.add(lblNewLabel);
-		lblNewLabel.setIcon(new ImageIcon(EditBookDialog.class.getResource("/UI/Library/编辑图书.png")));
-		
-		
-		contentPanel.setBounds(0, 0, 701, 555);
-		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-		getContentPane().add(contentPanel);
-		contentPanel.setLayout(null);
-		this.setUndecorated(true);
-		setBackground(new Color(0,0,0,0));
-		panel.setOpaque(false);
-		setContentPane(panel);
-		//this.setBackground (new Color (0, 0, 0, 0));
+		final JSpinner totalSpinner = new JSpinner(spm);
+		totalSpinner.setFont(new Font("微软雅黑", Font.PLAIN, 17));
+		totalSpinner.setBounds(135, 306, 241, 30);
+		panel.add(totalSpinner);
 		
 		//设置各个文本框内容
 		nameTextField.setText(lm.getBookName());
@@ -195,9 +167,79 @@ public class EditBookDialog extends JDialog {
 		TypeTextField.setText(lm.getType());
 		idTextField.setText(lm.getBookID());
 		placeTextField.setText(lm.getPlace());
-		storageTextField.setText(String.valueOf(lm.getStorage()));
+		storageSpinner.setValue(lm.getStorage());
+		totalSpinner.setValue(lm.getTotalNumber());
 		introTextArea.setText(lm.getIntroduct());		
 		bookImage.setIcon(lm.getIcon()); // 设置封面		
+		
+
+		
+		//背景图片
+		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setBounds(0, 0, 701, 555);
+		panel.add(lblNewLabel);
+		lblNewLabel.setIcon(new ImageIcon(EditBookDialog.class.getResource("/UI/Library/编辑图书.png")));
+		
+		//修改 按钮响应函数
+		editButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+					//判断可借数量是否小于库存，否则错误
+					if((int)(storageSpinner.getValue())>(int)(totalSpinner.getValue())){
+						//满足条件，修改数据库
+						LibraryMessage lm=new LibraryMessage("EDIT_BOOK", idTextField.getText(), nameTextField.getText(), authorTextField.getText(), 
+								placeTextField.getText(), (int)totalSpinner.getValue(), (int)storageSpinner.getValue(), introTextArea.getText(),publicsherTextField.getText(), TypeTextField.getText());
+						socketClient.sendRequestToServer(lm);
+						LibraryMessage result= (LibraryMessage)(socketClient.receiveDataFromServer());
+						if(result.getOperResult().equals("EDIT_BOOK_SUCCEED")){
+							md.showMessage("SUCCEED", "图书修改成功");
+							dispose();
+						}else if(result.getOperResult().equals("EDIT_BOOK_FAILED")){
+								md.showMessage("ERROR", "图书修改失败");
+							}
+
+					}else{
+						//输入数据不满足要求
+						md.showMessage("ERROR", "图书数量输入有误，请检查");
+					}
+
+				
+			}
+		});
+		
+		//删除图书按钮响应
+		
+		deledtButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(md.showMessage("WARNING", "您真的要删除这本书吗？该操作不可恢复")){
+					//删除图书
+					LibraryMessage lm=new LibraryMessage("DELETE_BOOK",idTextField.getText());
+					socketClient.sendRequestToServer(lm);
+					if(((LibraryMessage)(socketClient.receiveDataFromServer())).getOperResult().equals("DELETE_BOOK_SUCCEED")){
+						md.showMessage("SUCCEED", "图书删除成功");
+					}else{
+						md.showMessage("ERROR", "图书删除失败");
+					}
+				}else{
+					
+				}
+				
+			}
+		});
+		
+		//返回按钮响应
+		backButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				dispose();
+			}
+		});
+
+		
+
+		
+
+		
+		
+
 		
 	}
 	

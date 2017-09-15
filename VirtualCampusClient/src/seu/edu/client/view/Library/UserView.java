@@ -23,7 +23,7 @@ import java.awt.event.ActionEvent;
 import java.awt.SystemColor;
 import java.awt.Toolkit;
 
-public class MainWindow extends OnlyFrame {
+public class UserView extends OnlyFrame {
 	
 	private SocketClient socketClient = null;	
 
@@ -64,7 +64,7 @@ public class MainWindow extends OnlyFrame {
 	/**
 	 * Create the frame.
 	 */
-	public MainWindow(SocketClient sc) {
+	public UserView(SocketClient sc) {
 		setResizable(false);	
 		
 		socketClient=sc;
@@ -110,9 +110,9 @@ public class MainWindow extends OnlyFrame {
 			}
 		});
 		searchBookButton.setBorderPainted(false);
-		searchBookButton.setIcon(new ImageIcon(MainWindow.class.getResource("/UI/Library/图书查询  static.png")));
-		searchBookButton.setRolloverIcon(new ImageIcon(MainWindow.class.getResource("/UI/Library/图书查询  hover.png")));
-		searchBookButton.setPressedIcon(new ImageIcon(MainWindow.class.getResource("/UI/Library/图书查询  press.png")));
+		searchBookButton.setIcon(new ImageIcon(UserView.class.getResource("/UI/Library/图书查询  static.png")));
+		searchBookButton.setRolloverIcon(new ImageIcon(UserView.class.getResource("/UI/Library/图书查询  hover.png")));
+		searchBookButton.setPressedIcon(new ImageIcon(UserView.class.getResource("/UI/Library/图书查询  press.png")));
 		searchBookButton.setFocusPainted(false);
 		searchBookButton.setBounds(0, 110, 216, 53);
 		
@@ -128,15 +128,15 @@ public class MainWindow extends OnlyFrame {
 		borrowedBookbutton.setFocusPainted(false);
 		borrowedBookbutton.setBorderPainted(false);
 		borrowedBookbutton.setBounds(0, 163, 216, 53);
-		borrowedBookbutton.setIcon(new ImageIcon(MainWindow.class.getResource("/UI/Library/已借图书 static.png")));
-		borrowedBookbutton.setRolloverIcon(new ImageIcon(MainWindow.class.getResource("/UI/Library/已借图书 hover.png")));
-		borrowedBookbutton.setPressedIcon(new ImageIcon(MainWindow.class.getResource("/UI/Library/已借图书 press.png")));
+		borrowedBookbutton.setIcon(new ImageIcon(UserView.class.getResource("/UI/Library/已借图书 static.png")));
+		borrowedBookbutton.setRolloverIcon(new ImageIcon(UserView.class.getResource("/UI/Library/已借图书 hover.png")));
+		borrowedBookbutton.setPressedIcon(new ImageIcon(UserView.class.getResource("/UI/Library/已借图书 press.png")));
 		Leftsidebar.add(borrowedBookbutton);
 		
 		JButton hotButton = new JButton("");
-		hotButton.setIcon(new ImageIcon(MainWindow.class.getResource("/UI/Library/热门推荐 static.png")));
-		hotButton.setRolloverIcon(new ImageIcon(MainWindow.class.getResource("/UI/Library/热门推荐 hover.png")));
-		hotButton.setPressedIcon(new ImageIcon(MainWindow.class.getResource("/UI/Library/热门推荐 press.png")));
+		hotButton.setIcon(new ImageIcon(UserView.class.getResource("/UI/Library/热门推荐 static.png")));
+		hotButton.setRolloverIcon(new ImageIcon(UserView.class.getResource("/UI/Library/热门推荐 hover.png")));
+		hotButton.setPressedIcon(new ImageIcon(UserView.class.getResource("/UI/Library/热门推荐 press.png")));
 		hotButton.setBounds(0, 216, 216, 53);
 		Leftsidebar.add(hotButton);
 		hotButton.setFocusPainted(false);
@@ -148,16 +148,16 @@ public class MainWindow extends OnlyFrame {
 				card.show(panel, "ADD_BOOK_PANEL");
 			}
 		});
-		feedBackButton.setIcon(new ImageIcon(MainWindow.class.getResource("/UI/Library/读者反馈 static.png")));
-		feedBackButton.setRolloverIcon(new ImageIcon(MainWindow.class.getResource("/UI/Library/读者反馈 hover.png")));
-		feedBackButton.setPressedIcon(new ImageIcon(MainWindow.class.getResource("/UI/Library/读者反馈 press.png")));
+		feedBackButton.setIcon(new ImageIcon(UserView.class.getResource("/UI/Library/读者反馈 static.png")));
+		feedBackButton.setRolloverIcon(new ImageIcon(UserView.class.getResource("/UI/Library/读者反馈 hover.png")));
+		feedBackButton.setPressedIcon(new ImageIcon(UserView.class.getResource("/UI/Library/读者反馈 press.png")));
 		feedBackButton.setFocusPainted(false);
 		feedBackButton.setBorderPainted(false);
 		feedBackButton.setBounds(0, 269, 216, 53);
 		Leftsidebar.add(feedBackButton);
 		
 		JLabel left = new JLabel("");
-		left.setIcon(new ImageIcon(MainWindow.class.getResource("/UI/Library/左边栏.png")));
+		left.setIcon(new ImageIcon(UserView.class.getResource("/UI/Library/左边栏.png")));
 		left.setBounds(0, 0, 216, 750);
 		Leftsidebar.add(left);
 		
@@ -169,10 +169,10 @@ public class MainWindow extends OnlyFrame {
 		JLabel Top = new JLabel("");
 		Top.setBounds(0, 0, 814, 110);
 		Topsidebar.add(Top);
-		Top.setIcon(new ImageIcon(MainWindow.class.getResource("/UI/Library/上边栏.psd.png")));
+		Top.setIcon(new ImageIcon(UserView.class.getResource("/UI/Library/上边栏.psd.png")));
 		
 		JLabel BackGround = new JLabel("");
-		BackGround.setIcon(new ImageIcon(MainWindow.class.getResource("/UI/Library/BackGround.png")));
+		BackGround.setIcon(new ImageIcon(UserView.class.getResource("/UI/Library/BackGround.png")));
 		BackGround.setBounds(0, 0, 1030, 750);
 		contentPane.add(BackGround);
 	}
