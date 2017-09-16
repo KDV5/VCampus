@@ -108,17 +108,17 @@ public class EditBookDialog extends JDialog {
 		
 		//创建借阅按钮
 		JButton editButton = new JButton("");
-		editButton.setIcon(new ImageIcon(EditBookDialog.class.getResource("/UI/Library/修改.png")));
+		editButton.setIcon(new ImageIcon(EditBookDialog.class.getResource("/Image/Library/UI/修改.png")));
 		editButton.setBounds(314, 488, 75, 30);
 		panel.add(editButton);	
 		//删除图书按钮
 		JButton deledtButton = new JButton("");
-		deledtButton.setIcon(new ImageIcon(EditBookDialog.class.getResource("/UI/Library/删除.png")));
+		deledtButton.setIcon(new ImageIcon(EditBookDialog.class.getResource("/Image/Library/UI/删除.png")));
 		deledtButton.setBounds(186, 488, 75, 30);
 		panel.add(deledtButton);
 		//返回按钮
 		JButton backButton = new JButton("");
-		backButton.setIcon(new ImageIcon(EditBookDialog.class.getResource("/UI/Library/返回.png")));
+		backButton.setIcon(new ImageIcon(EditBookDialog.class.getResource("/Image/Library/UI/返回.png")));
 		backButton.setBounds(442, 488, 75, 30);
 		panel.add(backButton);
 		
@@ -178,7 +178,7 @@ public class EditBookDialog extends JDialog {
 		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setBounds(0, 0, 701, 555);
 		panel.add(lblNewLabel);
-		lblNewLabel.setIcon(new ImageIcon(EditBookDialog.class.getResource("/UI/Library/编辑图书.png")));
+		lblNewLabel.setIcon(new ImageIcon(EditBookDialog.class.getResource("/Image/Library/UI/编辑图书.png")));
 		
 		//修改 按钮响应函数
 		editButton.addActionListener(new ActionListener() {

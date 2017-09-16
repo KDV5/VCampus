@@ -119,7 +119,7 @@ public class BorrowBookDialog extends JDialog {
 				
 			}
 		});
-		borrowButton.setIcon(new ImageIcon(BorrowBookDialog.class.getResource("/UI/Library/借阅.png")));
+		borrowButton.setIcon(new ImageIcon(BorrowBookDialog.class.getResource("/Image/Library/UI/借阅.png")));
 		borrowButton.setBounds(253, 488, 75, 30);
 		panel.add(borrowButton);
 		
@@ -129,7 +129,7 @@ public class BorrowBookDialog extends JDialog {
 				dispose();
 			}
 		});
-		backButton.setIcon(new ImageIcon(BorrowBookDialog.class.getResource("/UI/Library/返回.png")));
+		backButton.setIcon(new ImageIcon(BorrowBookDialog.class.getResource("/Image/Library/UI/返回.png")));
 		backButton.setBounds(381, 488, 75, 30);
 		panel.add(backButton);
 		
@@ -165,7 +165,7 @@ public class BorrowBookDialog extends JDialog {
 		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setBounds(0, 0, 701, 555);
 		panel.add(lblNewLabel);
-		lblNewLabel.setIcon(new ImageIcon(BorrowBookDialog.class.getResource("/UI/Library/借书Dialog.png")));
+		lblNewLabel.setIcon(new ImageIcon(BorrowBookDialog.class.getResource("/Image/Library/UI/借书Dialog.png")));
 		
 		
 		contentPanel.setBounds(0, 0, 701, 555);

@@ -125,7 +125,7 @@ public class AddBookPanel extends JPanel {
 			}
 		});
 		insertImage.setBackground(Color.WHITE);
-		insertImage.setIcon(new ImageIcon(AddBookPanel.class.getResource("/UI/Library/添加图片.png")));
+		insertImage.setIcon(new ImageIcon(AddBookPanel.class.getResource("/Image/Library/UI/添加图片.png")));
 		insertImage.setBounds(555, 58, 200, 271);
 		panel.add(insertImage);
 
@@ -209,7 +209,7 @@ public class AddBookPanel extends JPanel {
 
 		JLabel backGround = new JLabel("");
 		backGround.setBounds(0, 0, 814, 640);
-		backGround.setIcon(new ImageIcon(AddBookPanel.class.getResource("/UI/Library/add_Panel.png")));
+		backGround.setIcon(new ImageIcon(AddBookPanel.class.getResource("/Image/Library/UI/add_Panel.png")));
 		panel.add(backGround);
 	}
 	

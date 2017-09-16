@@ -109,7 +109,7 @@ public class BorrowedBookPanel extends JPanel {
 	
 		JLabel backGround = new JLabel("");
 		backGround.setBounds(0, 0, 814, 640);
-		backGround.setIcon(new ImageIcon(BorrowedBookPanel.class.getResource("/UI/Library/PanelBackGround.png")));
+		backGround.setIcon(new ImageIcon(BorrowedBookPanel.class.getResource("/Image/Library/UI/PanelBackGround.png")));
 		panel.add(backGround);
 		
 		setTableData(getBorrowedBooks(stuID),borrowedTableModel);

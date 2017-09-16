@@ -39,7 +39,9 @@ import javax.swing.ScrollPaneConstants;
 
 public class SearchBookPanel extends JPanel {
 	private JTextField keyWordField;
+	private JComboBox typeComboBox;
 	private JTable resultTable;
+	private DefaultTableModel resultTableModel;
 	private SocketClient socketClient = null;
 	Vector headName =new Vector();
     Vector data = new Vector();	
@@ -66,14 +68,14 @@ public class SearchBookPanel extends JPanel {
 		searchButton.setBounds(699, 43, 24, 24);
 
 		panel.setLayout(null);
-		searchButton.setIcon(new ImageIcon(SearchBookPanel.class.getResource("/UI/Library/放大镜.png")));
+		searchButton.setIcon(new ImageIcon(SearchBookPanel.class.getResource("/Image/Library/UI/放大镜.png")));
 		searchButton.setContentAreaFilled(false); // 不绘制按钮底纹
 		searchButton.setFocusPainted(false);	// 不绘制焦点
 		searchButton.setBorderPainted(false);	// 不绘制按钮边框
 		panel.add(searchButton);
 
 		String[] searchType ={"书名","作者","出版社"};
-		final JComboBox typeComboBox = new JComboBox(searchType);
+		typeComboBox = new JComboBox(searchType);
 		typeComboBox.setBounds(60, 38, 126, 35);
 		panel.add(typeComboBox);
 		
@@ -136,7 +138,7 @@ public class SearchBookPanel extends JPanel {
 		for(int i=0;i<tableHead.length;i++){			
 			headName.add(tableHead[i]);		
 		}    
-	    final DefaultTableModel resultTableModel=new DefaultTableModel(data, headName);
+	    resultTableModel=new DefaultTableModel(data, headName);
 	    resultTable = new JTable(resultTableModel){
 	    	public boolean isCellEditable(int row,int col){
 	    		return false;
@@ -156,9 +158,11 @@ public class SearchBookPanel extends JPanel {
 					BorrowBookDialog borrowBookDialog=new BorrowBookDialog((LibraryMessage)(dataList.getDataList().get(row)), socketClient);
 					//com.sun.awt.AWTUtilities.setWindowOpaque(borrowBookDialog, false);
 					borrowBookDialog.setVisible(true);
-					socketClient.sendRequestToServer(libraryMessage);	
-					dataList=(ListMessage) socketClient.receiveDataFromServer();	
-					JOptionPane.showMessageDialog(null,resultTable.getValueAt(row, 1));
+					refresh();
+					
+//					socketClient.sendRequestToServer(libraryMessage);	
+//					dataList=(ListMessage) socketClient.receiveDataFromServer();	
+//					JOptionPane.showMessageDialog(null,resultTable.getValueAt(row, 1));
 				}
 			}
 		});
@@ -168,7 +172,7 @@ public class SearchBookPanel extends JPanel {
 	
 		JLabel backGround = new JLabel("");
 		backGround.setBounds(0, 0, 814, 640);
-		backGround.setIcon(new ImageIcon(SearchBookPanel.class.getResource("/UI/Library/Panel.png")));
+		backGround.setIcon(new ImageIcon(SearchBookPanel.class.getResource("/Image/Library/UI/Panel.png")));
 		panel.add(backGround);
 		
 		//搜索按钮响应函数
@@ -225,6 +229,12 @@ public class SearchBookPanel extends JPanel {
 			}
 
 
+	}
+	
+	private void refresh(){
+		searchByKeyword((String)typeComboBox.getSelectedItem(),keyWordField.getText());				
+		setTableData(dataList,resultTableModel);				
+		resultTable.validate();
 	}
 }
 

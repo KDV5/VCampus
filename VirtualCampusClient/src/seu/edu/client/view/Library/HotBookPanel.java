@@ -93,7 +93,7 @@ public class HotBookPanel extends JPanel {
 	
 		JLabel backGround = new JLabel("");
 		backGround.setBounds(0, 0, 814, 640);
-		backGround.setIcon(new ImageIcon(HotBookPanel.class.getResource("/UI/Library/热门推荐 pane.png")));
+		backGround.setIcon(new ImageIcon(HotBookPanel.class.getResource("/Image/Library/UI/热门推荐 pane.png")));
 		panel.add(backGround);
 		
 		getBorrowedBooks();

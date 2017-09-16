@@ -37,6 +37,8 @@ public class UserView extends OnlyFrame {
 	private BorrowedBookPanel borrowedBookPanel =null;
 	private AddBookPanel addBookPanel=null;
 	private HotBookPanel hotBookPanel=null;
+	private ManageBookPanel manageBookPanel=null;
+	private FeedBackUserPanel feedBackUserPanel=null;
 	
 	private SlidePanel sp=null;
 	
@@ -93,74 +95,125 @@ public class UserView extends OnlyFrame {
 		seachBookPanel=new SearchBookPanel(socketClient);
 		borrowedBookPanel =new BorrowedBookPanel(socketClient);
 		addBookPanel =new AddBookPanel(socketClient);
+		hotBookPanel=new HotBookPanel(socketClient);
+		manageBookPanel=new ManageBookPanel(socketClient);
+		feedBackUserPanel=new FeedBackUserPanel(socketClient);
 		
 		
 		panel.add(seachBookPanel, "SEARCH_BOOK_PANEL");
 		panel.add(borrowedBookPanel, "BORROWED_BOOK_PANEL");
 		panel.add(addBookPanel, "ADD_BOOK_PANEL");
+		panel.add(hotBookPanel, "HOT_BOOK_PANEL");
+		panel.add(manageBookPanel, "MANAGE_BOOK_PANEL");
+		panel.add(feedBackUserPanel, "FEEDBACK_USER_PANEL");
 		
 		JPanel Leftsidebar = new JPanel();
 		Leftsidebar.setBounds(0, 0, 216, 750);
 		contentPane.add(Leftsidebar);
 		Leftsidebar.setLayout(null);
 		
-		//查询图书按钮响应函数
 		JButton searchBookButton = new JButton("");
+		JButton borrowedBookbutton = new JButton("");
+		JButton hotButton = new JButton("");
+		JButton feedBackButton = new JButton("");
+		JButton ManageBookButton = new JButton("");
+		JButton addBookButton = new JButton("");
+
+		
+		searchBookButton.setBorderPainted(false);
+		searchBookButton.setIcon(new ImageIcon(UserView.class.getResource("/Image/Library/UI/图书查询  static.png")));
+		searchBookButton.setRolloverIcon(new ImageIcon(UserView.class.getResource("/Image/Library/UI/图书查询  hover.png")));
+		searchBookButton.setPressedIcon(new ImageIcon(UserView.class.getResource("/Image/Library/UI/图书查询  press.png")));
+		searchBookButton.setFocusPainted(false);
+		searchBookButton.setBounds(0, 110, 216, 53);
+		Leftsidebar.add(searchBookButton);
+		
+		borrowedBookbutton.setFocusPainted(false);
+		borrowedBookbutton.setBorderPainted(false);
+		borrowedBookbutton.setBounds(0, 163, 216, 53);
+		borrowedBookbutton.setIcon(new ImageIcon(UserView.class.getResource("/Image/Library/UI/已借图书 static.png")));
+		borrowedBookbutton.setRolloverIcon(new ImageIcon(UserView.class.getResource("/Image/Library/UI/已借图书 hover.png")));
+		borrowedBookbutton.setPressedIcon(new ImageIcon(UserView.class.getResource("/Image/Library/UI/已借图书 press.png")));
+		Leftsidebar.add(borrowedBookbutton);
+		
+		hotButton.setIcon(new ImageIcon(UserView.class.getResource("/Image/Library/UI/热门推荐 static.png")));
+		hotButton.setRolloverIcon(new ImageIcon(UserView.class.getResource("/Image/Library/UI/热门推荐 hover.png")));
+		hotButton.setPressedIcon(new ImageIcon(UserView.class.getResource("/Image/Library/UI/热门推荐 press.png")));
+		hotButton.setBounds(0, 216, 216, 53);
+		Leftsidebar.add(hotButton);
+		hotButton.setFocusPainted(false);
+		hotButton.setBorderPainted(false);
+		
+		feedBackButton.setIcon(new ImageIcon(UserView.class.getResource("/Image/Library/UI/读者反馈 static.png")));
+		feedBackButton.setRolloverIcon(new ImageIcon(UserView.class.getResource("/Image/Library/UI/读者反馈 hover.png")));
+		feedBackButton.setPressedIcon(new ImageIcon(UserView.class.getResource("/Image/Library/UI/读者反馈 press.png")));
+		feedBackButton.setFocusPainted(false);
+		feedBackButton.setBorderPainted(false);
+		feedBackButton.setBounds(0, 269, 216, 53);
+		Leftsidebar.add(feedBackButton);
+		
+		ManageBookButton.setIcon(new ImageIcon(UserView.class.getResource("/Image/Library/UI/图书管理 static.png")));
+		ManageBookButton.setRolloverIcon(new ImageIcon(UserView.class.getResource("/Image/Library/UI/图书管理 hover.png")));
+		ManageBookButton.setPressedIcon(new ImageIcon(UserView.class.getResource("/Image/Library/UI/图书管理 press.png")));
+		ManageBookButton.setFocusPainted(false);
+		ManageBookButton.setBorderPainted(false);
+		ManageBookButton.setBounds(0, 322, 216, 53);		
+		Leftsidebar.add(ManageBookButton);
+		
+		addBookButton.setIcon(new ImageIcon(UserView.class.getResource("/Image/Library/UI/图书入库 static.png")));
+		addBookButton.setRolloverIcon(new ImageIcon(UserView.class.getResource("/Image/Library/UI/图书入库 hover.png")));
+		addBookButton.setPressedIcon(new ImageIcon(UserView.class.getResource("/Image/Library/UI/图书入库 press.png")));
+		addBookButton.setFocusPainted(false);
+		addBookButton.setBorderPainted(false);
+		addBookButton.setBounds(0, 374, 216, 53);		
+		Leftsidebar.add(addBookButton);
+		
+		//查询图书按钮响应函数
 		searchBookButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				sp.slidePanel("SEARCH_BOOK_PANEL", seachBookPanel);
 			}
 		});
-		searchBookButton.setBorderPainted(false);
-		searchBookButton.setIcon(new ImageIcon(UserView.class.getResource("/UI/Library/图书查询  static.png")));
-		searchBookButton.setRolloverIcon(new ImageIcon(UserView.class.getResource("/UI/Library/图书查询  hover.png")));
-		searchBookButton.setPressedIcon(new ImageIcon(UserView.class.getResource("/UI/Library/图书查询  press.png")));
-		searchBookButton.setFocusPainted(false);
-		searchBookButton.setBounds(0, 110, 216, 53);
 		
-		Leftsidebar.add(searchBookButton);
 		
-		//借阅按钮响应函数
-		JButton borrowedBookbutton = new JButton("");
+		
+		//借阅按钮响应函数		
 		borrowedBookbutton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				borrowedBookPanel.refresh();
 				card.show(panel, "BORROWED_BOOK_PANEL");
 			}
 		});
-		borrowedBookbutton.setFocusPainted(false);
-		borrowedBookbutton.setBorderPainted(false);
-		borrowedBookbutton.setBounds(0, 163, 216, 53);
-		borrowedBookbutton.setIcon(new ImageIcon(UserView.class.getResource("/UI/Library/已借图书 static.png")));
-		borrowedBookbutton.setRolloverIcon(new ImageIcon(UserView.class.getResource("/UI/Library/已借图书 hover.png")));
-		borrowedBookbutton.setPressedIcon(new ImageIcon(UserView.class.getResource("/UI/Library/已借图书 press.png")));
-		Leftsidebar.add(borrowedBookbutton);
-		
-		JButton hotButton = new JButton("");
-		hotButton.setIcon(new ImageIcon(UserView.class.getResource("/UI/Library/热门推荐 static.png")));
-		hotButton.setRolloverIcon(new ImageIcon(UserView.class.getResource("/UI/Library/热门推荐 hover.png")));
-		hotButton.setPressedIcon(new ImageIcon(UserView.class.getResource("/UI/Library/热门推荐 press.png")));
-		hotButton.setBounds(0, 216, 216, 53);
-		Leftsidebar.add(hotButton);
-		hotButton.setFocusPainted(false);
-		hotButton.setBorderPainted(false);
-		
-		JButton feedBackButton = new JButton("");
+	
+
 		feedBackButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				card.show(panel, "ADD_BOOK_PANEL");
+				card.show(panel, "FEEDBACK_USER_PANEL");
 			}
 		});
-		feedBackButton.setIcon(new ImageIcon(UserView.class.getResource("/UI/Library/读者反馈 static.png")));
-		feedBackButton.setRolloverIcon(new ImageIcon(UserView.class.getResource("/UI/Library/读者反馈 hover.png")));
-		feedBackButton.setPressedIcon(new ImageIcon(UserView.class.getResource("/UI/Library/读者反馈 press.png")));
-		feedBackButton.setFocusPainted(false);
-		feedBackButton.setBorderPainted(false);
-		feedBackButton.setBounds(0, 269, 216, 53);
-		Leftsidebar.add(feedBackButton);
 		
+		hotButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				card.show(panel,"HOT_BOOK_PANEL");
+			}
+		});
+		
+		addBookButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				card.show(panel,"ADD_BOOK_PANEL");
+			}
+		});
+		
+		ManageBookButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				card.show(panel,"MANAGE_BOOK_PANEL");
+			}
+		});
+		
+
+				
 		JLabel left = new JLabel("");
-		left.setIcon(new ImageIcon(UserView.class.getResource("/UI/Library/左边栏.png")));
+		left.setIcon(new ImageIcon(UserView.class.getResource("/Image/Library/UI/Left bar.png")));
 		left.setBounds(0, 0, 216, 750);
 		Leftsidebar.add(left);
 		
@@ -172,10 +225,10 @@ public class UserView extends OnlyFrame {
 		JLabel Top = new JLabel("");
 		Top.setBounds(0, 0, 814, 110);
 		Topsidebar.add(Top);
-		Top.setIcon(new ImageIcon(UserView.class.getResource("/UI/Library/上边栏.psd.png")));
+		Top.setIcon(new ImageIcon(UserView.class.getResource("/Image/Library/UI/虚拟图书馆user.png")));
 		
 		JLabel BackGround = new JLabel("");
-		BackGround.setIcon(new ImageIcon(UserView.class.getResource("/UI/Library/BackGround.png")));
+		BackGround.setIcon(new ImageIcon(UserView.class.getResource("/Image/Library/UI/BackGround.png")));
 		BackGround.setBounds(0, 0, 1030, 750);
 		contentPane.add(BackGround);
 	}
